@@ -1,9 +1,10 @@
 import './App.css'
+import { MenuPage } from './components/pages';
 
 function App() {
   return (
     <>
-      <h1>Sales Register</h1>
+      <MenuPage />
     </>
   );
 }
