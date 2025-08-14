@@ -1,12 +1,11 @@
-import './App.css'
-import { MenuPage } from './components/pages';
+import { MenuPage } from '@/components/pages';
 
 function App() {
   return (
-    <main className='font-geist w-full bg-white text-gray-700'>
+    <main className='w-full bg-white font-geist text-gray-700'>
       <MenuPage />
     </main>
   );
 }
 
-export default App
+export default App;
