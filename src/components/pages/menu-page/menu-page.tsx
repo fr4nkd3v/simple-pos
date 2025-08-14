@@ -1,4 +1,4 @@
-import { Icon } from '@/components/shared/icon';
+import { Icon } from '@/components/shared';
 
 export const MenuPage = () => {
   const header = (
