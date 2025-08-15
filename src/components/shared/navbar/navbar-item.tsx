@@ -1,17 +1,18 @@
-import { Icon, type TIconName } from '@/components/shared';
+import { Icon } from '@/components/shared';
 import { classNames } from '@/utils';
-interface INavbarItemProps {
-  text: string;
-  icon: TIconName;
-  active?: boolean;
-}
+
+import { type INavbarItemProps } from './navbar.types';
+
 export const NavbarItem = ({
   text,
   icon,
-  active = false,
+  onClick,
+  active = false
 }: INavbarItemProps) => {
   return (
-    <li className='flex flex-1 flex-col items-center justify-center gap-1'>
+    <li className='cursor-pointer flex flex-1 flex-col items-center justify-center gap-1'
+      onClick={onClick}
+    >
       <Icon
         name={icon}
         className={classNames(
