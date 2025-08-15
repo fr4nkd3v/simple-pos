@@ -3,7 +3,7 @@
   "jsxSingleQuote": true,
   "singleAttributePerLine": true,
   "htmlWhitespaceSensitivity": "strict",
-  "plugins": ["prettier-plugin-tailwindcss"],
+  "plugins": ["prettier-plugin-tailwindcss", "simple-import-sort"],
   "printWidth": 80,
   "tailwindFunctions": ["cva"]
 }

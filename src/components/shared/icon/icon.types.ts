@@ -10,3 +10,5 @@ export interface IIconProps {
   name: TIconName;
   className?: string;
 }
+
+export const STROKE_WIDTH = 2;
