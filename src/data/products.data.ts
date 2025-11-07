@@ -8,53 +8,53 @@ interface IProduct {
   imagePath: string
 }
 
-export const products:IProduct[] = [
+export const productsData:IProduct[] = [
   {
     name: 'Clásica Carne',
     category: 'hamburguesa',
     price: 6,
-    imagePath: 'https://www.sargento.com/assets/Uploads/Recipe/Image/portabella-burger__FocusFillWyIwLjAwIiwiMC4wMCIsNDM4LDQzOF0_CompressedW10.jpg'
+    imagePath: './images/temporal-product.jpg'
   },
   {
     name: 'Clásica Pollo',
     category: 'hamburguesa',
     price: 6,
-    imagePath: 'https://www.sargento.com/assets/Uploads/Recipe/Image/portabella-burger__FocusFillWyIwLjAwIiwiMC4wMCIsNDM4LDQzOF0_CompressedW10.jpg'
+    imagePath: './images/temporal-product.jpg'
   },
   {
     name: 'Chorizo',
     category: 'hamburguesa',
     price: 8,
-    imagePath: 'https://www.sargento.com/assets/Uploads/Recipe/Image/portabella-burger__FocusFillWyIwLjAwIiwiMC4wMCIsNDM4LDQzOF0_CompressedW10.jpg'
+    imagePath: './images/temporal-product.jpg'
   },
   {
     name: 'Casera',
     category: 'hamburguesa',
     price: 9,
-    imagePath: 'https://www.sargento.com/assets/Uploads/Recipe/Image/portabella-burger__FocusFillWyIwLjAwIiwiMC4wMCIsNDM4LDQzOF0_CompressedW10.jpg'
+    imagePath: './images/temporal-product.jpg'
   },
   {
     name: 'Parrillera',
     category: 'hamburguesa',
     price: 10,
-    imagePath: 'https://www.sargento.com/assets/Uploads/Recipe/Image/portabella-burger__FocusFillWyIwLjAwIiwiMC4wMCIsNDM4LDQzOF0_CompressedW10.jpg'
+    imagePath: './images/temporal-product.jpg'
   },
   {
     name: 'Royal Clásica',
     category: 'hamburguesa',
     price: 10,
-    imagePath: 'https://www.sargento.com/assets/Uploads/Recipe/Image/portabella-burger__FocusFillWyIwLjAwIiwiMC4wMCIsNDM4LDQzOF0_CompressedW10.jpg'
+    imagePath: './images/temporal-product.jpg'
   },
   {
     name: 'Royal Casera',
     category: 'hamburguesa',
     price: 12.50,
-    imagePath: 'https://www.sargento.com/assets/Uploads/Recipe/Image/portabella-burger__FocusFillWyIwLjAwIiwiMC4wMCIsNDM4LDQzOF0_CompressedW10.jpg'
+    imagePath: './images/temporal-product.jpg'
   },
   {
     name: 'Ala',
     category: 'broaster',
     price: 10,
-    imagePath: 'https://www.sargento.com/assets/Uploads/Recipe/Image/portabella-burger__FocusFillWyIwLjAwIiwiMC4wMCIsNDM4LDQzOF0_CompressedW10.jpg'
+    imagePath: './images/temporal-product.jpg'
   },
 ]
