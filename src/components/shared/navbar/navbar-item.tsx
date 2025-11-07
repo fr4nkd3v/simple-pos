@@ -17,14 +17,14 @@ export const NavbarItem = ({
         name={icon}
         className={classNames(
           'h-7 w-7',
-          active ? 'text-gray-900' : 'text-gray-400',
+          active ? 'text-gray-900' : 'text-gray-500',
         )}
       />
 
       <div
         className={classNames(
           'text-xs font-semibold',
-          active ? 'text-gray-900' : 'text-gray-400',
+          active ? 'text-gray-900' : 'text-gray-500',
         )}
       >
         {text}
