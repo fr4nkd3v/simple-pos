@@ -1,7 +1,6 @@
-
 type TDataFilter = {
   category: string
   countItems: number
 }
 
-export type TMenuFilters = { dataList: TDataFilter[] }
+export type TMenuFiltersProps = { dataList: TDataFilter[], selectedCategoryFilter: string, onChangeFilter: (filter: string) => void }
