@@ -1,6 +1,6 @@
 import type { TCategory } from "./categories.data"
 
-interface IProduct {
+export interface IProduct {
   name: string
   description?: string
   category: TCategory
