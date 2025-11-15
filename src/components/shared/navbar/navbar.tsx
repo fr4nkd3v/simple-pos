@@ -8,7 +8,7 @@ interface INavbarProps {
 
 export const Navbar = ({ pageId, onItemClick }: INavbarProps) => {
   return (
-    <nav>
+    <nav className='bg-white'>
       <ul className='flex h-[72px]'>
         {NAVBAR_DATA.map(data => {
           const isActive = data.id === pageId

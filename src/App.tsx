@@ -14,11 +14,13 @@ function App() {
 
   return (
     <div className='grid h-full grid-rows-[1fr_auto]'>
-      <main className='w-full bg-white font-geist text-gray-700'>
+      <main className='w-full bg-white font-geist text-gray-700 pb-[72px]'>
         {pages[pageId]}
       </main>
 
-      <Navbar pageId={pageId} onItemClick={setPageId} />
+      <div className='fixed bottom-0 w-full shadow-[0_-2px_15px_0_rgba(0,0,0,.1)]'>
+        <Navbar pageId={pageId} onItemClick={setPageId} />
+      </div>
     </div>
   );
 }
