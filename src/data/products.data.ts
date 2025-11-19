@@ -57,4 +57,10 @@ export const productsData:IProduct[] = [
     price: 10,
     imagePath: './images/temporal-product.jpg'
   },
+  {
+    name: 'Cafe',
+    category: 'bebida',
+    price: 10,
+    imagePath: './images/temporal-product.jpg'
+  },
 ]

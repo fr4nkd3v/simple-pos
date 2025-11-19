@@ -7,7 +7,12 @@ export const MenuFilters = ({ dataList, selectedCategoryFilter, onChangeFilter }
   return (
     <div className="flex gap-3 flex-wrap">
       {dataList.map(item => (
-        <Chip text={`${capitalize(item.category)} (${item.countItems})`} isSelected={item.category === selectedCategoryFilter} key={item.category} onClick={() => onChangeFilter(item.category)} />
+        <Chip
+          text={`${capitalize(item.category)} (${item.countItems})`}
+          isSelected={item.category === selectedCategoryFilter} key={item.category}
+          onClick={() => onChangeFilter(item.category)}
+          className="flex-shrink-0"
+        />
       ))}
     </div>
   )

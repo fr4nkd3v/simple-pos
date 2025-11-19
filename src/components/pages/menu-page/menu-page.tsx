@@ -16,7 +16,11 @@ export const MenuPage = () => {
     <div className='p-5 flex flex-col gap-5'>
       <Header title='Carta' icon='bookLi' />
 
-      <MenuFilters dataList={filtersMenuAdapter(productsData)} selectedCategoryFilter={selectedFilter} onChangeFilter={setSelectedFilter} />
+      <MenuFilters
+        dataList={filtersMenuAdapter(productsData)}
+        selectedCategoryFilter={selectedFilter}
+        onChangeFilter={setSelectedFilter}
+      />
 
       <ul className='border-t border-gray-200'>
         {filteredProducts.map(({ name, category, price, imagePath }, index) => {
