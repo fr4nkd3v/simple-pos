@@ -1,6 +1,6 @@
-import { Icon } from "@/components/shared"
+import { Icon } from '@/components/shared';
 
-import type { IHeaderProps } from "./header.types"
+import type { IHeaderProps } from './header.types';
 
 export const Header = ({ title, icon }: IHeaderProps) => {
   return (
@@ -12,5 +12,5 @@ export const Header = ({ title, icon }: IHeaderProps) => {
 
       <h1 className='text-xl font-semibold'>{title}</h1>
     </div>
-  )
-}
+  );
+};

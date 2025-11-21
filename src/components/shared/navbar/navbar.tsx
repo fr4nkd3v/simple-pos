@@ -10,8 +10,8 @@ export const Navbar = ({ pageId, onItemClick }: INavbarProps) => {
   return (
     <nav className='bg-white'>
       <ul className='flex h-[72px]'>
-        {NAVBAR_DATA.map(data => {
-          const isActive = data.id === pageId
+        {NAVBAR_DATA.map((data) => {
+          const isActive = data.id === pageId;
           return (
             <NavbarItem
               key={data.id}
@@ -20,7 +20,7 @@ export const Navbar = ({ pageId, onItemClick }: INavbarProps) => {
               active={isActive}
               onClick={() => onItemClick(data.id)}
             />
-          )
+          );
         })}
       </ul>
     </nav>

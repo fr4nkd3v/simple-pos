@@ -1,6 +1,6 @@
-import { type TIconName } from "@/components/shared"
+import { type TIconName } from '@/components/shared';
 
 export interface IHeaderProps {
   title: string;
-  icon: TIconName
+  icon: TIconName;
 }

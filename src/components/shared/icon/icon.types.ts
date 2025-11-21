@@ -1,4 +1,12 @@
-import { BookBo, BookLi, GraphBo, GraphLi, ReceiptBo, ReceiptEditLi, ReceiptLi } from './variants';
+import {
+  BookBo,
+  BookLi,
+  GraphBo,
+  GraphLi,
+  ReceiptBo,
+  ReceiptEditLi,
+  ReceiptLi,
+} from './variants';
 
 export const iconsMap = {
   bookLi: BookLi,

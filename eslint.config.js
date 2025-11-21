@@ -8,6 +8,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import prettierConfig from 'eslint-config-prettier'; // Disable rules in conflict
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import prettierPlugin from 'eslint-plugin-prettier';
 
 export default tseslint.config(
   {
@@ -39,10 +40,10 @@ export default tseslint.config(
         // project: ['./tsconfig.json'],
         projectService: true,
         settings: {
-            react: {
-                version: 'detect' 
-            }
-        }
+          react: {
+            version: 'detect',
+          },
+        },
       },
     },
     plugins: {
@@ -50,6 +51,7 @@ export default tseslint.config(
       'react-hooks': reactHooks,
       'jsx-a11y': jsxA11y,
       'simple-import-sort': simpleImportSort,
+      prettier: prettierPlugin,
     },
     rules: {
       ...jsxA11y.configs.recommended.rules,
@@ -59,15 +61,15 @@ export default tseslint.config(
       'react/prop-types': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
       'no-multiple-empty-lines': [
-        'error', 
-        { 
+        'error',
+        {
           max: 1,
           maxEOF: 0,
-          maxBOF: 0
-        }
+          maxBOF: 0,
+        },
       ],
       'jsx-a11y/click-events-have-key-events': 'warn',
-      'jsx-a11y/no-noninteractive-element-interactions': 'warn'
+      'jsx-a11y/no-noninteractive-element-interactions': 'warn',
     },
   },
 );

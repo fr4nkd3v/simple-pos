@@ -1,5 +1,3 @@
-export const categories = [
-  'hamburguesa', 'broaster', 'bebida'
-] as const
+export const categories = ['hamburguesa', 'broaster', 'bebida'] as const;
 
-export type TCategory = typeof categories[number]
+export type TCategory = (typeof categories)[number];
