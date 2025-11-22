@@ -6,11 +6,7 @@ interface IOrderItem {
 export interface IUseCurrentOrderState {
   id: string | null;
   number: string | null;
-  products: IOrderItem[];
-  addFirstProducts: (
-    id: string,
-    number: string,
-    products: IOrderItem[],
-  ) => void;
-  addProducts: (products: IOrderItem[]) => void;
+  items: IOrderItem[];
+  addFirstItems: (id: string, number: string, products: IOrderItem[]) => void;
+  addItems: (products: IOrderItem[]) => void;
 }

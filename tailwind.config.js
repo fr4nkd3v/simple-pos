@@ -6,6 +6,10 @@ export default {
       fontFamily: {
         geist: ['"Geist Sans"', 'sans-serif'],
       },
+      inset: {
+        'current-order-offset': 'calc(var(--height-navbar) + 1.25rem)',
+      },
+      height: { navbar: 'var(--height-navbar)' },
     },
   },
   plugins: [],

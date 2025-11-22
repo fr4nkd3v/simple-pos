@@ -3,8 +3,9 @@ import { useState } from 'react';
 import { Header } from '@/components/shared';
 import { productsData } from '@/data';
 
-import { MenuFilters, MenuItem } from './components';
+import { CurrentOrderButton, MenuFilters, MenuItem } from './components';
 import { filtersMenuAdapter } from './menu-page.utils';
+import { useCurrentOrderStore } from '@/stores';
 
 export const MenuPage = () => {
   const allCategoryFilter = 'todo';
@@ -15,8 +16,10 @@ export const MenuPage = () => {
       ? productsData
       : productsData.filter((product) => product.category === selectedFilter);
 
+  const { number: orderNumber, items: orderItems } = useCurrentOrderStore();
+
   return (
-    <div className='flex flex-col gap-5 p-5'>
+    <div className='relative flex flex-col gap-5 p-5'>
       <Header
         title='Carta'
         icon='bookLi'
@@ -44,6 +47,15 @@ export const MenuPage = () => {
           },
         )}
       </ul>
+
+      {orderNumber && orderItems.length && (
+        <div className='bottom-current-order-offset shad fixed w-[calc(100%_-_2.5rem)]'>
+          <CurrentOrderButton
+            orderNumber='35'
+            countItems={1}
+          />
+        </div>
+      )}
     </div>
   );
 };

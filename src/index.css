@@ -38,6 +38,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --height-navbar: 72px;
 }
 
 #root {

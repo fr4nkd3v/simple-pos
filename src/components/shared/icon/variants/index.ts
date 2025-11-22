@@ -5,3 +5,4 @@ export * from './graph-li';
 export * from './receipt-bo';
 export * from './receipt-edit-li';
 export * from './receipt-li';
+export * from './bowl-li';

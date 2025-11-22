@@ -5,9 +5,9 @@ import type { IUseCurrentOrderState } from './use-current-order-store.types';
 export const useCurrentOrderStore = create<IUseCurrentOrderState>((set) => ({
   id: null,
   number: null,
-  products: [],
-  addFirstProducts: (id, number, products) =>
-    set({ id, number, products: [...products] }),
-  addProducts: (products) =>
-    set((state) => ({ products: [...state.products, ...products] })),
+  items: [],
+  addFirstItems: (id, number, products) =>
+    set({ id, number, items: [...products] }),
+  addItems: (products) =>
+    set((state) => ({ items: [...state.items, ...products] })),
 }));
