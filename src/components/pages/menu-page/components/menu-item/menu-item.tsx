@@ -2,15 +2,20 @@ import { capitalize, formatNumberToPrice } from '@/utils';
 import type { TMenuItemProps } from './menu-item.types';
 
 export const MenuItem = ({
+  itemId,
   name,
   category,
   price,
   imagePath,
   altText,
+  onClick,
 }: TMenuItemProps) => {
   return (
     <li>
-      <div className='flex border-b border-gray-200 py-3'>
+      <button
+        className='flex border-b border-gray-200 py-3'
+        onClick={() => onClick(itemId)}
+      >
         <div className='flex-1'>
           <p className='text-xl font-semibold text-gray-700'>{name}</p>
           <p className='text-[13px] font-semibold text-gray-400'>
@@ -27,7 +32,7 @@ export const MenuItem = ({
             alt={altText}
           />
         </div>
-      </div>
+      </button>
     </li>
   );
 };

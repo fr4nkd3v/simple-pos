@@ -37,11 +37,13 @@ export const MenuPage = () => {
             return (
               <MenuItem
                 key={id}
+                itemId={id}
                 name={name}
                 category={category}
                 price={price}
                 imagePath={imagePath}
                 altText={imageAltText}
+                onClick={(id) => console.log(id)}
               />
             );
           },
@@ -49,10 +51,10 @@ export const MenuPage = () => {
       </ul>
 
       {orderNumber && orderItems.length && (
-        <div className='bottom-current-order-offset shad fixed w-[calc(100%_-_2.5rem)]'>
+        <div className='fixed bottom-current-order-offset w-[calc(100%_-_2.5rem)]'>
           <CurrentOrderButton
-            orderNumber='35'
-            countItems={1}
+            orderNumber={orderNumber}
+            countItems={orderItems.length}
           />
         </div>
       )}
