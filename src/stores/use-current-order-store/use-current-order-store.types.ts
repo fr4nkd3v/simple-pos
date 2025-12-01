@@ -1,14 +1,11 @@
-interface IOrderItem {
-  productId: string;
-  quantity: number;
-}
+import type { IOrderItem } from '@/types';
 
 export interface IUseCurrentOrderState {
   id: string | null;
-  number: string | null;
+  number: number | null;
   items: IOrderItem[];
-  addItem: (item: IOrderItem) => void;
+  addItem: (itemToAdd: IOrderItem) => void;
   clearOrder: () => void;
-  addFirstItems: (id: string, number: string, products: IOrderItem[]) => void;
-  addItems: (products: IOrderItem[]) => void;
+  // addFirstItems: (id: string, number: number, products: IOrderItem[]) => void;
+  // addItems: (products: IOrderItem[]) => void;
 }

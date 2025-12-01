@@ -1,4 +1,4 @@
 export type TCurrentOrderButtonProps = {
-  orderNumber: string;
+  orderNumber: number;
   countItems: number;
 };

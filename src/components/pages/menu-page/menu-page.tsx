@@ -16,7 +16,20 @@ export const MenuPage = () => {
       ? productsData
       : productsData.filter((product) => product.category === selectedFilter);
 
-  const { number: orderNumber, items: orderItems } = useCurrentOrderStore();
+  const {
+    number: orderNumber,
+    items: orderItems,
+    addItem: addCurrentOrderItem,
+  } = useCurrentOrderStore();
+
+  const currentOrderItemsCount = orderItems.reduce(
+    (sum, item) => (sum += item.quantity),
+    0,
+  );
+
+  const handleItemClick = (itemId: string) => {
+    addCurrentOrderItem({ productId: itemId, quantity: 1 });
+  };
 
   return (
     <div className='relative flex flex-col gap-5 p-5'>
@@ -43,7 +56,7 @@ export const MenuPage = () => {
                 price={price}
                 imagePath={imagePath}
                 altText={imageAltText}
-                onClick={(id) => console.log(id)}
+                onClick={handleItemClick}
               />
             );
           },
@@ -54,7 +67,7 @@ export const MenuPage = () => {
         <div className='fixed bottom-current-order-offset w-[calc(100%_-_2.5rem)]'>
           <CurrentOrderButton
             orderNumber={orderNumber}
-            countItems={orderItems.length}
+            countItems={currentOrderItemsCount}
           />
         </div>
       )}

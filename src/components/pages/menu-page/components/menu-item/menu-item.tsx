@@ -13,7 +13,7 @@ export const MenuItem = ({
   return (
     <li>
       <button
-        className='flex border-b border-gray-200 py-3'
+        className='flex w-full border-b border-gray-200 py-3 text-left'
         onClick={() => onClick(itemId)}
       >
         <div className='flex-1'>
