@@ -22,11 +22,6 @@ export const MenuPage = () => {
     addItem: addCurrentOrderItem,
   } = useCurrentOrderStore();
 
-  const currentOrderItemsCount = orderItems.reduce(
-    (sum, item) => (sum += item.quantity),
-    0,
-  );
-
   const handleItemClick = (itemId: string) => {
     addCurrentOrderItem({ productId: itemId, quantity: 1 });
   };
@@ -65,10 +60,7 @@ export const MenuPage = () => {
 
       {orderNumber && orderItems.length && (
         <div className='fixed bottom-current-order-offset w-[calc(100%_-_2.5rem)]'>
-          <CurrentOrderButton
-            orderNumber={orderNumber}
-            countItems={currentOrderItemsCount}
-          />
+          <CurrentOrderButton />
         </div>
       )}
     </div>

@@ -7,6 +7,7 @@ import {
   ReceiptEditLi,
   ReceiptLi,
   BowlLi,
+  PenLi,
 } from './variants';
 
 export const iconsMap = {
@@ -18,6 +19,7 @@ export const iconsMap = {
   receiptBo: ReceiptBo,
   receiptEditLi: ReceiptEditLi,
   bowlLi: BowlLi,
+  penLi: PenLi,
 };
 
 export type TIconName = keyof typeof iconsMap;
