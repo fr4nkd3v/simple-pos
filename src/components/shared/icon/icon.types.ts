@@ -8,6 +8,9 @@ import {
   ReceiptLi,
   BowlLi,
   PenLi,
+  AddLi,
+  MinusLi,
+  TrashLi,
 } from './variants';
 
 export const iconsMap = {
@@ -20,6 +23,9 @@ export const iconsMap = {
   receiptEditLi: ReceiptEditLi,
   bowlLi: BowlLi,
   penLi: PenLi,
+  addLi: AddLi,
+  minusLi: MinusLi,
+  trashLi: TrashLi,
 };
 
 export type TIconName = keyof typeof iconsMap;

@@ -1,4 +1,4 @@
-export type TCurrentOrderButtonProps = {
+export type TCurrentOrderControlProps = {
   orderNumber: number;
   countItems: number;
 };

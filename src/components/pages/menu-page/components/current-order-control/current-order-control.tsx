@@ -1,7 +1,8 @@
 import { Drawer, Icon } from '@/components/shared';
 import { useCurrentOrderDetail } from '@/hooks';
+import { CurrentOrderItem } from './current-order-item';
 
-export const CurrentOrderButton = () => {
+export const CurrentOrderControl = () => {
   const { orderNumberLabel, orderItems, itemsCount, totalPrice } =
     useCurrentOrderDetail();
 
@@ -23,7 +24,9 @@ export const CurrentOrderButton = () => {
                 name='bowlLi'
                 className='aspect-square h-5 text-gray-500'
               />
-              <span className='font-semibold'>{itemsCount}</span>
+              <span className='font-semibold lining-nums tabular-nums'>
+                {itemsCount}
+              </span>
             </div>
             <div className='flex items-center gap-1'>
               <Icon
@@ -37,7 +40,7 @@ export const CurrentOrderButton = () => {
       </Drawer.Trigger>
 
       <Drawer.Content>
-        <Drawer.Header className='flex flex-row justify-between text-gray-700'>
+        <Drawer.Header className='flex flex-row justify-between border-b border-gray-200 text-gray-700'>
           <div className='flex items-center gap-1 font-medium'>
             <Icon
               name='receiptEditLi'
@@ -52,7 +55,9 @@ export const CurrentOrderButton = () => {
                 name='bowlLi'
                 className='aspect-square h-5 text-gray-500'
               />
-              <span className='font-semibold'>{itemsCount}</span>
+              <span className='font-semibold lining-nums tabular-nums'>
+                {itemsCount}
+              </span>
             </div>
             <div className='flex items-center gap-1'>
               <Icon
@@ -64,14 +69,22 @@ export const CurrentOrderButton = () => {
           </div>
         </Drawer.Header>
 
-        <div className='p-4'>
+        <div className='py-4'>
           <ul>
             {orderItems.map((item) => {
-              const { name, price, id } = item;
+              const { name, price, id, quantity, imagePath, imageAltText } =
+                item;
               return (
-                <li key={id}>
-                  {item.quantity} | {name} | S/ {item.quantity * price}
-                </li>
+                <>
+                  <CurrentOrderItem
+                    key={id}
+                    quantity={quantity}
+                    productName={name}
+                    price={item.quantity * price}
+                    imagePath={imagePath}
+                    imageAltText={imageAltText}
+                  />
+                </>
               );
             })}
           </ul>

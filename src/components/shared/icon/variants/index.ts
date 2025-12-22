@@ -7,3 +7,6 @@ export * from './receipt-edit-li';
 export * from './receipt-li';
 export * from './bowl-li';
 export * from './pen-li';
+export * from './add-li';
+export * from './minus-li';
+export * from './trash-li';

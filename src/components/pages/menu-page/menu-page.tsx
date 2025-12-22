@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Header } from '@/components/shared';
 import { productsData } from '@/data';
 
-import { CurrentOrderButton, MenuFilters, MenuItem } from './components';
+import { CurrentOrderControl, MenuFilters, MenuItem } from './components';
 import { filtersMenuAdapter } from './menu-page.utils';
 import { useCurrentOrderStore } from '@/stores';
 
@@ -60,7 +60,7 @@ export const MenuPage = () => {
 
       {orderNumber && orderItems.length && (
         <div className='fixed bottom-current-order-offset w-[calc(100%_-_2.5rem)]'>
-          <CurrentOrderButton />
+          <CurrentOrderControl />
         </div>
       )}
     </div>
