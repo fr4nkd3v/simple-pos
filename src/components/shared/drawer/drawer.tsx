@@ -5,7 +5,7 @@ import {
   RawDrawerHeader,
   RawDrawerTitle,
   RawDrawerTrigger,
-} from '@/components/shadcn/drawer';
+} from '@/components/shadcn/drawer/drawer';
 import type { IDrawerTrigger, IDrawerWithChildren } from './drawer.types';
 
 export const DrawerRoot = ({ children }: IDrawerWithChildren) => {

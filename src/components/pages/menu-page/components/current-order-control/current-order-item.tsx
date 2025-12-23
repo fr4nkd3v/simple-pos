@@ -1,5 +1,7 @@
 import { Icon } from '@/components/shared';
 
+// TODO: add actions (minus, plus & remove)
+
 export const CurrentOrderItem = ({
   quantity,
   productName,

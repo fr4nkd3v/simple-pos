@@ -1,7 +1,8 @@
-import { Drawer, Icon } from '@/components/shared';
+import { Button, Drawer, Icon } from '@/components/shared';
 import { useCurrentOrderDetail } from '@/hooks';
 import { CurrentOrderItem } from './current-order-item';
 
+// TODO: add descartar & confirmar handlers
 export const CurrentOrderControl = () => {
   const { orderNumberLabel, orderItems, itemsCount, totalPrice } =
     useCurrentOrderDetail();
@@ -69,7 +70,7 @@ export const CurrentOrderControl = () => {
           </div>
         </Drawer.Header>
 
-        <div className='py-4'>
+        <div className='border-b border-gray-200 py-4'>
           <ul>
             {orderItems.map((item) => {
               const { name, price, id, quantity, imagePath, imageAltText } =
@@ -89,6 +90,25 @@ export const CurrentOrderControl = () => {
             })}
           </ul>
         </div>
+
+        <Drawer.Footer>
+          <div className='flex w-full gap-3'>
+            <Button
+              variant='outline'
+              size='lg'
+              className='shrink-0'
+            >
+              Descartar
+            </Button>
+            <Button
+              variant='default'
+              size='lg'
+              className='flex-1'
+            >
+              Confirmar
+            </Button>
+          </div>
+        </Drawer.Footer>
       </Drawer.Content>
     </Drawer.Root>
   );
