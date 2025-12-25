@@ -6,7 +6,9 @@ export const useCurrentOrderDetail = () => {
   const {
     number: orderNumber,
     items: orderItems,
-    // addItem: addCurrentOrderItem,
+    addItem: addCurrentOrderItem,
+    subtractItem: subtractCurrentOrderItem,
+    deleteItem: deleteCurrentOrderItem,
   } = useCurrentOrderStore();
 
   const { itemsCount, totalPrice } = useMemo(
@@ -43,5 +45,8 @@ export const useCurrentOrderDetail = () => {
     itemsCount,
     totalPrice,
     orderItems: detailedItems,
+    addCurrentOrderItem,
+    subtractCurrentOrderItem,
+    deleteCurrentOrderItem,
   };
 };

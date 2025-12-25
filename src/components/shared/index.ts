@@ -4,3 +4,4 @@ export * from './icon';
 export * from './navbar';
 export * from './drawer';
 export * from './button';
+export * from './badge';

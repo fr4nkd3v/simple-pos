@@ -5,6 +5,8 @@ export interface IUseCurrentOrderState {
   number: number | null;
   items: IOrderItem[];
   addItem: (itemToAdd: IOrderItem) => void;
+  subtractItem: (itemToSubtract: IOrderItem) => void;
+  deleteItem: (idToDelete: string) => void;
   clearOrder: () => void;
   // addFirstItems: (id: string, number: number, products: IOrderItem[]) => void;
   // addItems: (products: IOrderItem[]) => void;

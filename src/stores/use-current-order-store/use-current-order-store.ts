@@ -38,6 +38,46 @@ export const useCurrentOrderStore = create<IUseCurrentOrderState>(
         items: [itemToAdd],
       });
     },
+    subtractItem: (itemToSubtract) => {
+      const { id, number, items } = get();
+
+      // If no exists a current order do nothing
+      if (!id || !number) return;
+
+      // If exists a current order
+      const existingItem = items.find(
+        (item) => item.productId === itemToSubtract.productId,
+      );
+
+      if (!existingItem) return;
+
+      const updatedItems = items
+        .map((item) => {
+          if (item.productId === itemToSubtract.productId) {
+            return {
+              ...item,
+              quantity: item.quantity - itemToSubtract.quantity,
+            };
+          } else {
+            return item;
+          }
+        })
+        .filter((item) => item.quantity > 0);
+
+      set({ items: updatedItems });
+    },
+    deleteItem: (idToDelete) => {
+      const { id, number, items } = get();
+
+      // If no exists a current order do nothing
+      if (!id || !number) return;
+
+      const updatedItems = items.filter(
+        (item) => item.productId !== idToDelete,
+      );
+
+      set({ items: updatedItems });
+    },
     clearOrder: () => {
       set({ id: null, number: null, items: [] });
     },

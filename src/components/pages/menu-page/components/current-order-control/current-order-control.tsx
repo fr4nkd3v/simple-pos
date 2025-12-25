@@ -3,9 +3,27 @@ import { useCurrentOrderDetail } from '@/hooks';
 import { CurrentOrderItem } from './current-order-item';
 
 // TODO: add descartar & confirmar handlers
+
 export const CurrentOrderControl = () => {
-  const { orderNumberLabel, orderItems, itemsCount, totalPrice } =
-    useCurrentOrderDetail();
+  const {
+    orderNumberLabel,
+    orderItems: currentOrderItems,
+    itemsCount,
+    totalPrice,
+    addCurrentOrderItem,
+    subtractCurrentOrderItem,
+    deleteCurrentOrderItem,
+  } = useCurrentOrderDetail();
+
+  const handleItemAdd = (itemId: string) => {
+    addCurrentOrderItem({ productId: itemId, quantity: 1 });
+  };
+  const handleItemSubtract = (itemId: string) => {
+    subtractCurrentOrderItem({ productId: itemId, quantity: 1 });
+  };
+  const handleItemDelete = (itemId: string) => {
+    deleteCurrentOrderItem(itemId);
+  };
 
   return (
     <Drawer.Root>
@@ -72,20 +90,22 @@ export const CurrentOrderControl = () => {
 
         <div className='border-b border-gray-200 py-4'>
           <ul>
-            {orderItems.map((item) => {
+            {currentOrderItems.map((item) => {
               const { name, price, id, quantity, imagePath, imageAltText } =
                 item;
               return (
-                <>
-                  <CurrentOrderItem
-                    key={id}
-                    quantity={quantity}
-                    productName={name}
-                    price={item.quantity * price}
-                    imagePath={imagePath}
-                    imageAltText={imageAltText}
-                  />
-                </>
+                <CurrentOrderItem
+                  key={id}
+                  itemId={id}
+                  quantity={quantity}
+                  productName={name}
+                  price={item.quantity * price}
+                  imagePath={imagePath}
+                  imageAltText={imageAltText}
+                  onAdd={handleItemAdd}
+                  onSubtract={handleItemSubtract}
+                  onDelete={handleItemDelete}
+                />
               );
             })}
           </ul>

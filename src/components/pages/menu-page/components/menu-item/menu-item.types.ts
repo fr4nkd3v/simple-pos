@@ -6,4 +6,7 @@ export type TMenuItemProps = {
   imagePath: string;
   altText: string;
   onClick: (itemId: string) => void;
-}; 
+  onAdd: (itemId: string) => void;
+  onSubtract: (itemId: string) => void;
+  currentQuantity?: number;
+};

@@ -18,12 +18,32 @@ export const MenuPage = () => {
 
   const {
     number: orderNumber,
-    items: orderItems,
+    items: currentOrderItems,
     addItem: addCurrentOrderItem,
+    subtractItem: subtractCurrentOrderItem,
   } = useCurrentOrderStore();
 
+  const getQuantityInOrder = (productId: string): number | undefined => {
+    const foundItem = currentOrderItems.find(
+      (item) => item.productId === productId,
+    );
+    if (!foundItem || foundItem.quantity < 1) return;
+
+    return foundItem.quantity;
+  };
+
   const handleItemClick = (itemId: string) => {
+    const currentQuantity = getQuantityInOrder(itemId);
+
+    if (!currentQuantity) {
+      addCurrentOrderItem({ productId: itemId, quantity: 1 });
+    }
+  };
+  const handleItemAdd = (itemId: string) => {
     addCurrentOrderItem({ productId: itemId, quantity: 1 });
+  };
+  const handleItemSubtract = (itemId: string) => {
+    subtractCurrentOrderItem({ productId: itemId, quantity: 1 });
   };
 
   return (
@@ -52,13 +72,16 @@ export const MenuPage = () => {
                 imagePath={imagePath}
                 altText={imageAltText}
                 onClick={handleItemClick}
+                onAdd={handleItemAdd}
+                onSubtract={handleItemSubtract}
+                currentQuantity={getQuantityInOrder(id)}
               />
             );
           },
         )}
       </ul>
 
-      {orderNumber && orderItems.length && (
+      {orderNumber && currentOrderItems.length && (
         <div className='fixed bottom-current-order-offset w-[calc(100%_-_2.5rem)]'>
           <CurrentOrderControl />
         </div>
