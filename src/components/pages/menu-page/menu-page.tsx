@@ -6,8 +6,19 @@ import { productsData } from '@/data';
 import { CurrentOrderControl, MenuFilters, MenuItem } from './components';
 import { filtersMenuAdapter } from './menu-page.utils';
 import { useCurrentOrderStore } from '@/stores';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/shadcn';
 
 export const MenuPage = () => {
+  const [openConfirmDiscard, setOpenConfirmDiscard] = useState(false);
   const allCategoryFilter = 'todo';
   const [selectedFilter, setSelectedFilter] = useState(allCategoryFilter);
 
@@ -21,6 +32,7 @@ export const MenuPage = () => {
     items: currentOrderItems,
     addItem: addCurrentOrderItem,
     subtractItem: subtractCurrentOrderItem,
+    clearOrder: clearCurrentOrder,
   } = useCurrentOrderStore();
 
   const getQuantityInOrder = (productId: string): number | undefined => {
@@ -83,9 +95,33 @@ export const MenuPage = () => {
 
       {orderNumber && currentOrderItems.length && (
         <div className='fixed bottom-current-order-offset w-[calc(100%_-_2.5rem)]'>
-          <CurrentOrderControl />
+          <CurrentOrderControl onDiscard={() => setOpenConfirmDiscard(true)} />
         </div>
       )}
+
+      <AlertDialog
+        open={openConfirmDiscard}
+        onOpenChange={setOpenConfirmDiscard}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              ¿Seguro que quieres descartar esta cuenta?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Al descartar la cuenta se perderá todo el registro de los
+              productos que escogiste y se borrará la cuenta para que puedas
+              iniciar una nueva desde cero.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={clearCurrentOrder}>
+              Descartar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

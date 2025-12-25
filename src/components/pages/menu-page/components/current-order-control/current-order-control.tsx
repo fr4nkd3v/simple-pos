@@ -4,7 +4,11 @@ import { CurrentOrderItem } from './current-order-item';
 
 // TODO: add descartar & confirmar handlers
 
-export const CurrentOrderControl = () => {
+export const CurrentOrderControl = ({
+  onDiscard,
+}: {
+  onDiscard: () => void;
+}) => {
   const {
     orderNumberLabel,
     orderItems: currentOrderItems,
@@ -117,6 +121,7 @@ export const CurrentOrderControl = () => {
               variant='outline'
               size='lg'
               className='shrink-0'
+              onClick={onDiscard}
             >
               Descartar
             </Button>
