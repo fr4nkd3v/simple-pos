@@ -6,8 +6,10 @@ import { CurrentOrderItem } from './current-order-item';
 
 export const CurrentOrderControl = ({
   onDiscard,
+  onConfirm,
 }: {
   onDiscard: () => void;
+  onConfirm: () => void;
 }) => {
   const {
     orderNumberLabel,
@@ -129,6 +131,7 @@ export const CurrentOrderControl = ({
               variant='default'
               size='lg'
               className='flex-1'
+              onClick={onConfirm}
             >
               Confirmar
             </Button>

@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 
 import type { IUseCurrentOrderState } from './use-current-order-store.types';
-import { generateUUID } from '@/utils';
 import { getNextOrderNumber } from '@/services';
 
 export const useCurrentOrderStore = create<IUseCurrentOrderState>(
@@ -11,10 +10,10 @@ export const useCurrentOrderStore = create<IUseCurrentOrderState>(
     items: [],
 
     addItem: (itemToAdd) => {
-      const { id, number, items } = get();
+      const { number, items } = get();
 
       // If exists a current order
-      if (id && number) {
+      if (number) {
         const existingItem = items.find(
           (item) => item.productId === itemToAdd.productId,
         );
@@ -33,16 +32,15 @@ export const useCurrentOrderStore = create<IUseCurrentOrderState>(
 
       // If no exists a current order
       set({
-        id: generateUUID(),
         number: getNextOrderNumber(),
         items: [itemToAdd],
       });
     },
     subtractItem: (itemToSubtract) => {
-      const { id, number, items } = get();
+      const { number, items } = get();
 
       // If no exists a current order do nothing
-      if (!id || !number) return;
+      if (!number) return;
 
       // If exists a current order
       const existingItem = items.find(
@@ -67,10 +65,10 @@ export const useCurrentOrderStore = create<IUseCurrentOrderState>(
       set({ items: updatedItems });
     },
     deleteItem: (idToDelete) => {
-      const { id, number, items } = get();
+      const { number, items } = get();
 
       // If no exists a current order do nothing
-      if (!id || !number) return;
+      if (!number) return;
 
       const updatedItems = items.filter(
         (item) => item.productId !== idToDelete,

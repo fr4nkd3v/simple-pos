@@ -1,8 +1,9 @@
 import type { IOrder } from '@/types';
+import { generateUUID } from '@/utils';
 
 const LOCAL_STORAGE_ORDERS_KEY = 'orders';
 
-const getOrders = (): IOrder[] => {
+export const getOrders = (): IOrder[] => {
   try {
     const data = localStorage.getItem(LOCAL_STORAGE_ORDERS_KEY);
     if (!data) return [];
@@ -31,12 +32,16 @@ export const getNextOrderNumber = () => {
   return calculateNextOrderNumber(existingOrders);
 };
 
-export const registerOrder = (newOrderData: Omit<IOrder, 'number'>): IOrder => {
+export const registerOrder = (
+  newOrderData: Omit<IOrder, 'number' | 'id' | 'createdAt'>,
+): IOrder => {
   const existingOrders = getOrders();
 
   const orderToSave: IOrder = {
     ...newOrderData,
+    id: generateUUID(),
     number: calculateNextOrderNumber(existingOrders),
+    createdAt: new Date().toISOString(),
   };
 
   const updatedOrders = [...existingOrders, orderToSave];

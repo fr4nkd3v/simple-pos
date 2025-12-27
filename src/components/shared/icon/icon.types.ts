@@ -11,6 +11,9 @@ import {
   AddLi,
   MinusLi,
   TrashLi,
+  DotsLi,
+  ArrowDownLi,
+  ArrowUpLi,
 } from './variants';
 
 export const iconsMap = {
@@ -26,6 +29,9 @@ export const iconsMap = {
   addLi: AddLi,
   minusLi: MinusLi,
   trashLi: TrashLi,
+  dotsLi: DotsLi,
+  arrowDownLi: ArrowDownLi,
+  arrowUpLi: ArrowUpLi,
 };
 
 export type TIconName = keyof typeof iconsMap;

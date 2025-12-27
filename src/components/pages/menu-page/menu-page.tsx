@@ -3,19 +3,15 @@ import { useState } from 'react';
 import { Header } from '@/components/shared';
 import { productsData } from '@/data';
 
-import { CurrentOrderControl, MenuFilters, MenuItem } from './components';
+import {
+  ConfirmDiscardDialog,
+  CurrentOrderControl,
+  MenuFilters,
+  MenuItem,
+} from './components';
 import { filtersMenuAdapter } from './menu-page.utils';
 import { useCurrentOrderStore } from '@/stores';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/shadcn';
+import { registerOrder } from '@/services';
 
 export const MenuPage = () => {
   const [openConfirmDiscard, setOpenConfirmDiscard] = useState(false);
@@ -58,6 +54,16 @@ export const MenuPage = () => {
     subtractCurrentOrderItem({ productId: itemId, quantity: 1 });
   };
 
+  const handleConfirm = () => {
+    registerOrder({
+      items: [...currentOrderItems],
+    });
+
+    // TODO: show a short message notification of success created
+
+    clearCurrentOrder();
+  };
+
   return (
     <div className='relative flex flex-col gap-5 p-5'>
       <Header
@@ -95,33 +101,18 @@ export const MenuPage = () => {
 
       {orderNumber && currentOrderItems.length && (
         <div className='fixed bottom-current-order-offset w-[calc(100%_-_2.5rem)]'>
-          <CurrentOrderControl onDiscard={() => setOpenConfirmDiscard(true)} />
+          <CurrentOrderControl
+            onDiscard={() => setOpenConfirmDiscard(true)}
+            onConfirm={handleConfirm}
+          />
         </div>
       )}
 
-      <AlertDialog
+      <ConfirmDiscardDialog
         open={openConfirmDiscard}
         onOpenChange={setOpenConfirmDiscard}
-      >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              ¿Seguro que quieres descartar esta cuenta?
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              Al descartar la cuenta se perderá todo el registro de los
-              productos que escogiste y se borrará la cuenta para que puedas
-              iniciar una nueva desde cero.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={clearCurrentOrder}>
-              Descartar
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+        onConfirm={clearCurrentOrder}
+      />
     </div>
   );
 };

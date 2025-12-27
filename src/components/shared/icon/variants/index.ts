@@ -10,3 +10,6 @@ export * from './pen-li';
 export * from './add-li';
 export * from './minus-li';
 export * from './trash-li';
+export * from './dots-li';
+export * from './arrow-down-li';
+export * from './arrow-up-li';

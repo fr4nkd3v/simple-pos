@@ -1,11 +1,26 @@
 import { Header } from '@/components/shared';
+import { getOrders } from '@/services';
+import { OrderItem } from './components';
 
 export const OrdersPage = () => {
-  return (
-    <div className='p-5'>
-      <Header title='Cuentas' icon='receiptLi' />
+  const orders = getOrders();
+  const pageTitle = `Cuentas (${orders.length})`;
 
-      <p>Aqui se mostrarán las cuentas pendientes por pagar</p>
+  return (
+    <div className='flex flex-col gap-5 p-5'>
+      <Header
+        title={pageTitle}
+        icon='receiptLi'
+      />
+
+      <ul className='flex flex-col gap-4'>
+        {orders.map((order) => (
+          <OrderItem
+            order={order}
+            key={order.id}
+          />
+        ))}
+      </ul>
     </div>
   );
 };
