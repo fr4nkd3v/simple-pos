@@ -26,14 +26,15 @@ export const ConfirmDiscardDialog = ({
             ¿Seguro que quieres descartar esta cuenta?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Al descartar la cuenta se perderá todo el registro de los productos
-            que escogiste y se borrará la cuenta para que puedas iniciar una
-            nueva desde cero.
+            Se perderá todo el registro de los productos que escogiste para que
+            puedas iniciar una nueva cuenta desde cero.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
+          <AlertDialogAction onClick={onConfirm}>
+            Si, descartar
+          </AlertDialogAction>
           <AlertDialogCancel>Cancelar</AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirm}>Descartar</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
