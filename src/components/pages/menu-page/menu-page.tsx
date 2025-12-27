@@ -12,6 +12,7 @@ import {
 import { filtersMenuAdapter } from './menu-page.utils';
 import { useCurrentOrderStore } from '@/stores';
 import { registerOrder } from '@/services';
+import { toast } from 'sonner';
 
 export const MenuPage = () => {
   const [openConfirmDiscard, setOpenConfirmDiscard] = useState(false);
@@ -59,7 +60,7 @@ export const MenuPage = () => {
       items: [...currentOrderItems],
     });
 
-    // TODO: show a short message notification of success created
+    toast('La cuenta ha sido creada con éxito');
 
     clearCurrentOrder();
   };
