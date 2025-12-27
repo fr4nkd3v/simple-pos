@@ -3,7 +3,7 @@ import { getOrders } from '@/services';
 import { OrderItem } from './components';
 
 export const OrdersPage = () => {
-  const orders = getOrders();
+  const orders = getOrders('desc');
   const pageTitle = `Cuentas (${orders.length})`;
 
   return (

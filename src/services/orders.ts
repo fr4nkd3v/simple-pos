@@ -3,12 +3,22 @@ import { generateUUID } from '@/utils';
 
 const LOCAL_STORAGE_ORDERS_KEY = 'orders';
 
-export const getOrders = (): IOrder[] => {
+export const getOrders = (sort: 'asc' | 'desc' = 'asc'): IOrder[] => {
   try {
     const data = localStorage.getItem(LOCAL_STORAGE_ORDERS_KEY);
     if (!data) return [];
 
-    return JSON.parse(data) as IOrder[];
+    const parsedOrders = JSON.parse(data) as IOrder[];
+
+    parsedOrders.sort((a, b) => {
+      if (sort === 'asc') {
+        return a.number - b.number;
+      } else {
+        return b.number - a.number;
+      }
+    });
+
+    return parsedOrders;
   } catch (error) {
     console.error('Error retrieving purchase orders from localStorage:', error);
     return [];
