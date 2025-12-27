@@ -1,11 +1,11 @@
-import type { IOrder } from '@/types';
 import { useState } from 'react';
 import { OrderProvider } from './order-item.context';
 import { OrderItemHeader } from './order-item-header';
 import { OrderItemBody } from './order-item-body';
 import { OrderItemFooter } from './order-item-footer';
+import type { TOrderItem } from './order-item.types';
 
-export const OrderItem = ({ order }: { order: IOrder }) => {
+export const OrderItem = ({ order }: TOrderItem) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleExpanded = () => {
     setIsExpanded((isExpanded) => !isExpanded);

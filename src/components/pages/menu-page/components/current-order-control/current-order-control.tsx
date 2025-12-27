@@ -1,16 +1,12 @@
 import { Button, Drawer, Icon } from '@/components/shared';
 import { useCurrentOrderDetail } from '@/hooks';
 import { CurrentOrderItem } from './current-order-item';
-
-// TODO: add descartar & confirmar handlers
+import type { TCurrentOrderControlProps } from './current-order-control.types';
 
 export const CurrentOrderControl = ({
   onDiscard,
   onConfirm,
-}: {
-  onDiscard: () => void;
-  onConfirm: () => void;
-}) => {
+}: TCurrentOrderControlProps) => {
   const {
     orderNumberLabel,
     orderItems: currentOrderItems,

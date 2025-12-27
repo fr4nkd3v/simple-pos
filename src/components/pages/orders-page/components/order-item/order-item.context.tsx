@@ -1,13 +1,10 @@
 import { createContext, useContext } from 'react';
-import type { IOrder } from '@/types';
+import type {
+  IOrderContextValue,
+  TOrderProviderProps,
+} from './order-item.types';
 
-interface OrderContextValue {
-  order: IOrder;
-  isExpanded: boolean;
-  toggleExpanded: () => void;
-}
-
-const OrderContext = createContext<OrderContextValue | null>(null);
+const OrderContext = createContext<IOrderContextValue | null>(null);
 
 export const useOrderContext = () => {
   const ctx = useContext(OrderContext);
@@ -21,12 +18,7 @@ export const OrderProvider = ({
   isExpanded,
   toggleExpanded,
   children,
-}: {
-  order: IOrder;
-  isExpanded: boolean;
-  toggleExpanded: () => void;
-  children: React.ReactNode;
-}) => {
+}: TOrderProviderProps) => {
   return (
     <OrderContext.Provider value={{ order, isExpanded, toggleExpanded }}>
       {children}

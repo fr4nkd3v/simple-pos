@@ -1,6 +1,6 @@
 export type TCurrentOrderControlProps = {
-  orderNumber: number;
-  countItems: number;
+  onDiscard: () => void;
+  onConfirm: () => void;
 };
 
 export type TCurrentOrderItemProps = {
