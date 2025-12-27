@@ -1,12 +1,13 @@
-import { AlertDialogFooter, AlertDialogHeader } from '@/components/shadcn';
 import {
+  AlertDialogFooter,
+  AlertDialogHeader,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogTitle,
-} from '@radix-ui/react-alert-dialog';
+} from '@/components/shadcn';
 import type { TConfirmDiscardDialogProps } from './confirm-discard-order-dialog.types';
 
 export const ConfirmDiscardDialog = ({
