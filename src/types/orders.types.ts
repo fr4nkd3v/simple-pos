@@ -9,4 +9,6 @@ export interface IOrder {
   createdAt: string; // Date the order was created
   // client: string; // Client Data
   items: IOrderItem[];
+  // TODO: Rounds is part of new structure, make it mandatory later
+  rounds?: Record<number, IOrderItem[]>;
 }

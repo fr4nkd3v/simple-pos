@@ -1,6 +1,6 @@
 import { getProductDetail, getProductPrice } from '@/services/products';
 import { useCurrentOrderStore } from '@/stores/use-current-order-store';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 export const useCurrentOrderDetail = () => {
   const {
@@ -9,6 +9,7 @@ export const useCurrentOrderDetail = () => {
     addItem: addCurrentOrderItem,
     subtractItem: subtractCurrentOrderItem,
     deleteItem: deleteCurrentOrderItem,
+    clearOrder: clearCurrentOrder,
   } = useCurrentOrderStore();
 
   const { itemsCount, totalPrice } = useMemo(
@@ -40,13 +41,27 @@ export const useCurrentOrderDetail = () => {
     [orderItems],
   );
 
+  const getQuantityInCurrentOrder = useCallback(
+    (productId: string): number | undefined => {
+      const foundItem = orderItems.find((item) => item.productId === productId);
+      if (!foundItem || foundItem.quantity < 1) return;
+
+      return foundItem.quantity;
+    },
+    [orderItems],
+  );
+
   return {
+    orderNumber,
     orderNumberLabel: `Cuenta #${orderNumber}`,
     itemsCount,
     totalPrice,
-    orderItems: detailedItems,
+    currentOrderDetailedItems: detailedItems,
+    currentOrderItems: orderItems,
     addCurrentOrderItem,
     subtractCurrentOrderItem,
     deleteCurrentOrderItem,
+    clearCurrentOrder,
+    getQuantityInCurrentOrder,
   };
 };

@@ -9,7 +9,7 @@ export const CurrentOrderControl = ({
 }: TCurrentOrderControlProps) => {
   const {
     orderNumberLabel,
-    orderItems: currentOrderItems,
+    currentOrderDetailedItems: currentOrderItems,
     itemsCount,
     totalPrice,
     addCurrentOrderItem,

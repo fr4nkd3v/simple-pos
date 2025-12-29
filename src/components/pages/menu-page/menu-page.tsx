@@ -10,9 +10,9 @@ import {
   MenuItem,
 } from './components';
 import { filtersMenuAdapter } from './menu-page.utils';
-import { useCurrentOrderStore } from '@/stores';
 import { registerOrder } from '@/services';
 import { toast } from 'sonner';
+import { useCurrentOrderDetail } from '@/hooks';
 
 export const MenuPage = () => {
   const [openConfirmDiscard, setOpenConfirmDiscard] = useState(false);
@@ -25,24 +25,16 @@ export const MenuPage = () => {
       : productsData.filter((product) => product.category === selectedFilter);
 
   const {
-    number: orderNumber,
-    items: currentOrderItems,
-    addItem: addCurrentOrderItem,
-    subtractItem: subtractCurrentOrderItem,
-    clearOrder: clearCurrentOrder,
-  } = useCurrentOrderStore();
-
-  const getQuantityInOrder = (productId: string): number | undefined => {
-    const foundItem = currentOrderItems.find(
-      (item) => item.productId === productId,
-    );
-    if (!foundItem || foundItem.quantity < 1) return;
-
-    return foundItem.quantity;
-  };
+    orderNumber,
+    currentOrderItems,
+    addCurrentOrderItem,
+    subtractCurrentOrderItem,
+    clearCurrentOrder,
+    getQuantityInCurrentOrder,
+  } = useCurrentOrderDetail();
 
   const handleItemClick = (itemId: string) => {
-    const currentQuantity = getQuantityInOrder(itemId);
+    const currentQuantity = getQuantityInCurrentOrder(itemId);
 
     if (!currentQuantity) {
       addCurrentOrderItem({ productId: itemId, quantity: 1 });
@@ -64,6 +56,8 @@ export const MenuPage = () => {
 
     clearCurrentOrder();
   };
+
+  const handleDiscard = () => setOpenConfirmDiscard(true);
 
   return (
     <div className='relative flex flex-col gap-5 p-5'>
@@ -93,7 +87,7 @@ export const MenuPage = () => {
                 onClick={handleItemClick}
                 onAdd={handleItemAdd}
                 onSubtract={handleItemSubtract}
-                currentQuantity={getQuantityInOrder(id)}
+                currentQuantity={getQuantityInCurrentOrder(id)}
               />
             );
           },
@@ -103,7 +97,7 @@ export const MenuPage = () => {
       {orderNumber && currentOrderItems.length && (
         <div className='fixed bottom-current-order-offset w-[calc(100%_-_2.5rem)]'>
           <CurrentOrderControl
-            onDiscard={() => setOpenConfirmDiscard(true)}
+            onDiscard={handleDiscard}
             onConfirm={handleConfirm}
           />
         </div>
