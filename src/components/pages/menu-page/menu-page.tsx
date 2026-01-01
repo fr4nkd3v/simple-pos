@@ -10,7 +10,7 @@ import {
   MenuItem,
 } from './components';
 import { filtersMenuAdapter } from './menu-page.utils';
-import { registerOrder } from '@/services';
+import { registerOrder, updateOrder } from '@/services';
 import { toast } from 'sonner';
 import { useCurrentOrderDetail } from '@/hooks';
 
@@ -26,15 +26,17 @@ export const MenuPage = () => {
 
   const {
     orderNumber,
+    currentOrderId,
     currentOrderItems,
+    currentOrderRounds,
     addCurrentOrderItem,
     subtractCurrentOrderItem,
     clearCurrentOrder,
-    getQuantityInCurrentOrder,
+    getQuantityInCurrentRound,
   } = useCurrentOrderDetail();
 
   const handleItemClick = (itemId: string) => {
-    const currentQuantity = getQuantityInCurrentOrder(itemId);
+    const currentQuantity = getQuantityInCurrentRound(itemId);
 
     if (!currentQuantity) {
       addCurrentOrderItem({ productId: itemId, quantity: 1 });
@@ -48,11 +50,24 @@ export const MenuPage = () => {
   };
 
   const handleConfirm = () => {
-    registerOrder({
-      items: [...currentOrderItems],
-    });
+    const isEditing = currentOrderRounds.length > 1;
 
-    toast('La cuenta ha sido creada con éxito');
+    if (isEditing && currentOrderId) {
+      updateOrder({
+        id: currentOrderId,
+        items: [...currentOrderItems],
+        rounds: [...currentOrderRounds],
+      });
+
+      toast('La cuenta ha sido actualizada con éxito');
+    } else {
+      registerOrder({
+        items: [...currentOrderItems],
+        rounds: [...currentOrderRounds],
+      });
+
+      toast('La cuenta ha sido creada con éxito');
+    }
 
     clearCurrentOrder();
   };
@@ -87,7 +102,7 @@ export const MenuPage = () => {
                 onClick={handleItemClick}
                 onAdd={handleItemAdd}
                 onSubtract={handleItemSubtract}
-                currentQuantity={getQuantityInCurrentOrder(id)}
+                currentQuantity={getQuantityInCurrentRound(id)}
               />
             );
           },

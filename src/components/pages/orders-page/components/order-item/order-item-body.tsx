@@ -18,13 +18,31 @@ export const OrderItemBody = () => {
       .filter((item) => item !== null);
   }, [order.items]);
 
-  const compactList = detailedItems.map((item, index) => (
-    <Fragment key={item.id}>
-      {index > 0 && <span> + </span>}
-      <span className='font-semibold lining-nums tabular-nums'>
-        {item.quantity}
-      </span>{' '}
-      <span>{item.name}</span>
+  const detailedRounds = useMemo(() => {
+    return order.rounds.map((round) => {
+      return round
+        .map((item) => {
+          const product = getProductDetail(item.productId);
+          if (!product) return null;
+
+          return { ...product, quantity: item.quantity };
+        })
+        .filter((item) => item !== null);
+    });
+  }, [order.rounds]);
+
+  const compactRoundList = detailedRounds.map((round, index) => (
+    <Fragment key={index}>
+      <p className='font-semibold text-gray-500'>Ronda {index + 1}:</p>
+      {round.map((item, index) => (
+        <Fragment key={item.id}>
+          {index > 0 && <span> + </span>}
+          <span className='font-semibold lining-nums tabular-nums'>
+            {item.quantity}
+          </span>{' '}
+          <span>{item.name}</span>
+        </Fragment>
+      ))}
     </Fragment>
   ));
 
@@ -39,26 +57,38 @@ export const OrderItemBody = () => {
 
   return (
     <div>
-      {!isExpanded && <p className='text-sm'>{compactList}</p>}
+      {!isExpanded && <div className='text-sm'>{compactRoundList}</div>}
 
       {isExpanded && (
-        <ul className='flex flex-col gap-1 text-sm'>
-          {detailedItems.map((item) => (
+        <ol className='rounded-lg border border-gray-200'>
+          {detailedRounds.map((round, index) => (
             <li
-              className='flex gap-2'
-              key={item.id}
+              key={index}
+              className='flex flex-col gap-2 pb-3'
             >
-              <p className='flex flex-1 gap-2'>
-                <span className='lining-nums tabular-nums'>
-                  {item.quantity}
-                </span>
-                <span>{item.name}</span>
-              </p>
+              <div className='bg-gray-100 px-4 py-2 text-sm font-medium text-gray-500'>
+                Ronda {index + 1}
+              </div>
+              <ul>
+                {round.map((item) => (
+                  <li
+                    className='flex gap-2 px-5 text-sm'
+                    key={item.id}
+                  >
+                    <p className='flex flex-1 gap-2'>
+                      <span className='lining-nums tabular-nums'>
+                        {item.quantity}
+                      </span>
+                      <span>{item.name}</span>
+                    </p>
 
-              <p>S/ {item.price.toFixed(2)}</p>
+                    <p>S/ {item.price.toFixed(2)}</p>
+                  </li>
+                ))}
+              </ul>
             </li>
           ))}
-        </ul>
+        </ol>
       )}
 
       <div className='flex justify-between pt-3'>

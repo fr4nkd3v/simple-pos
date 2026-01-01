@@ -25,6 +25,23 @@ export const getOrders = (sort: 'asc' | 'desc' = 'asc'): IOrder[] => {
   }
 };
 
+const getOrderById = (idToFind: string): IOrder | null => {
+  try {
+    const data = localStorage.getItem(LOCAL_STORAGE_ORDERS_KEY);
+    if (!data) return null;
+
+    const parsedOrders = JSON.parse(data) as IOrder[];
+
+    const foundOrder = parsedOrders.find((order) => order.id === idToFind);
+    if (!foundOrder) return null;
+
+    return foundOrder;
+  } catch (error) {
+    console.error('Error retrieving purchase orders from localStorage:', error);
+    return null;
+  }
+};
+
 const calculateNextOrderNumber = (existingOrders: IOrder[]): number => {
   if (existingOrders.length === 0) return 1;
 
@@ -43,12 +60,12 @@ export const getNextOrderNumber = () => {
 };
 
 export const registerOrder = (
-  newOrderData: Omit<IOrder, 'number' | 'id' | 'createdAt'>,
+  newOrder: Omit<IOrder, 'number' | 'id' | 'createdAt' | 'updatedAt'>,
 ): IOrder => {
   const existingOrders = getOrders();
 
   const orderToSave: IOrder = {
-    ...newOrderData,
+    ...newOrder,
     id: generateUUID(),
     number: calculateNextOrderNumber(existingOrders),
     createdAt: new Date().toISOString(),
@@ -66,4 +83,39 @@ export const registerOrder = (
   }
 
   return orderToSave;
+};
+
+export const updateOrder = (
+  updatedOrder: Omit<IOrder, 'createdAt' | 'number' | 'updatedAt'>,
+) => {
+  const foundOrder = getOrderById(updatedOrder.id);
+  if (!foundOrder) {
+    console.error('Order not found in local storage');
+    return;
+  }
+
+  const orderToUpdate: IOrder = {
+    ...foundOrder,
+    updatedAt: new Date().toISOString(),
+    items: [...updatedOrder.items],
+    rounds: [...updatedOrder.rounds],
+  };
+
+  const existingOrders = getOrders();
+  const updatedOrders = existingOrders.map((order) => {
+    if (order.id === updatedOrder.id) {
+      return orderToUpdate;
+    } else {
+      return order;
+    }
+  });
+
+  try {
+    localStorage.setItem(
+      LOCAL_STORAGE_ORDERS_KEY,
+      JSON.stringify(updatedOrders),
+    );
+  } catch (error) {
+    console.error('Error saving the order in localStorage:', error);
+  }
 };

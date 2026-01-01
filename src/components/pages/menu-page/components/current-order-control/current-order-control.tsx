@@ -9,7 +9,7 @@ export const CurrentOrderControl = ({
 }: TCurrentOrderControlProps) => {
   const {
     orderNumberLabel,
-    currentOrderDetailedItems: currentOrderItems,
+    currentOrderDetailedRounds: currentOrderRounds,
     itemsCount,
     totalPrice,
     addCurrentOrderItem,
@@ -90,27 +90,36 @@ export const CurrentOrderControl = ({
           </div>
         </Drawer.Header>
 
-        <div className='border-b border-gray-200 py-4'>
-          <ul>
-            {currentOrderItems.map((item) => {
-              const { name, price, id, quantity, imagePath, imageAltText } =
-                item;
+        <div className='border-b border-gray-200 pb-4'>
+          <ol>
+            {currentOrderRounds.map((round, index) => {
               return (
-                <CurrentOrderItem
-                  key={id}
-                  itemId={id}
-                  quantity={quantity}
-                  productName={name}
-                  price={item.quantity * price}
-                  imagePath={imagePath}
-                  imageAltText={imageAltText}
-                  onAdd={handleItemAdd}
-                  onSubtract={handleItemSubtract}
-                  onDelete={handleItemDelete}
-                />
+                <li key={index}>
+                  <div className='bg-gray-100 px-6 py-2 text-xs'>
+                    Ronda {index + 1}
+                  </div>
+                  <ul>
+                    {round.map((item) => {
+                      return (
+                        <CurrentOrderItem
+                          key={item.id}
+                          itemId={item.id}
+                          quantity={item.quantity}
+                          productName={item.name}
+                          price={item.quantity * item.price}
+                          imagePath={item.imagePath}
+                          imageAltText={item.imageAltText}
+                          onAdd={handleItemAdd}
+                          onSubtract={handleItemSubtract}
+                          onDelete={handleItemDelete}
+                        />
+                      );
+                    })}
+                  </ul>
+                </li>
               );
             })}
-          </ul>
+          </ol>
         </div>
 
         <Drawer.Footer>
