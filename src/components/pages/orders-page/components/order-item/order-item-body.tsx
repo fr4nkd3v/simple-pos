@@ -82,7 +82,7 @@ export const OrderItemBody = () => {
                       <span>{item.name}</span>
                     </p>
 
-                    <p>S/ {item.price.toFixed(2)}</p>
+                    <p>S/ {(item.price * item.quantity).toFixed(2)}</p>
                   </li>
                 ))}
               </ul>

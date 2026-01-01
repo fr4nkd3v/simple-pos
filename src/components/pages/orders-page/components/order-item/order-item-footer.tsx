@@ -1,16 +1,19 @@
 import { Button } from '@/components/shared';
 import { useOrderContext } from './order-item.context';
 import { useCurrentOrderStore } from '@/stores';
+import { usePageStore } from '@/stores/use-page/use-page';
+import { EPage } from '@/types';
 
 export const OrderItemFooter = () => {
   const { order } = useOrderContext();
   const { setExistingOrderAndNewRound } = useCurrentOrderStore();
+  const { setPage } = usePageStore();
 
   const handleEdit = () => {
     const { id, number, items, rounds } = order;
     setExistingOrderAndNewRound({ id, number, items, rounds });
 
-    // TODO: Go to menu page
+    setPage(EPage.MENU_PAGE);
   };
 
   return (

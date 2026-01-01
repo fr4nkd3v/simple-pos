@@ -51,7 +51,7 @@ export const CurrentOrderItem = ({
       </div>
 
       <div className='flex items-center gap-4'>
-        <span>S/ {price}</span>
+        <span>S/ {price.toFixed(2)}</span>
 
         <div className='flex w-fit shrink-0 items-center overflow-hidden rounded-s-lg bg-gray-200'>
           <button

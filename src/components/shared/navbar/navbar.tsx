@@ -1,24 +1,20 @@
 import { NAVBAR_DATA } from './navbar.data';
 import { NavbarItem } from './navbar-item';
+import type { INavbarProps } from './navbar.types';
 
-interface INavbarProps {
-  pageId: number
-  onItemClick: (pageId: number) => void
-}
-
-export const Navbar = ({ pageId, onItemClick }: INavbarProps) => {
+export const Navbar = ({ page, onItemClick }: INavbarProps) => {
   return (
     <nav className='bg-white'>
-      <ul className='h-navbar flex'>
+      <ul className='flex h-navbar'>
         {NAVBAR_DATA.map((data) => {
-          const isActive = data.id === pageId;
+          const isActive = data.page === page;
           return (
             <NavbarItem
-              key={data.id}
+              key={data.page}
               text={data.text}
               icon={isActive ? data.iconActive : data.icon}
               active={isActive}
-              onClick={() => onItemClick(data.id)}
+              onClick={() => onItemClick(data.page)}
             />
           );
         })}

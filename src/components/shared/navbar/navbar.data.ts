@@ -1,20 +1,21 @@
-import type { INavbarData } from "./navbar.types";
+import { EPage } from '@/types';
+import type { INavbarData } from './navbar.types';
 
 export const NAVBAR_DATA: INavbarData[] = [
   {
-    id: 1,
+    page: EPage.MENU_PAGE,
     text: 'Carta',
     icon: 'bookLi',
     iconActive: 'bookBo',
   },
   {
-    id: 2,
+    page: EPage.ORDERS_PAGE,
     text: 'Cuentas',
     icon: 'receiptLi',
     iconActive: 'receiptBo',
   },
   {
-    id: 3,
+    page: EPage.REPORTS_PAGE,
     text: 'Reporte',
     icon: 'graphLi',
     iconActive: 'graphBo',
