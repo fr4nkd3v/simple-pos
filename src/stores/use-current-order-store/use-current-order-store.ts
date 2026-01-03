@@ -18,7 +18,7 @@ export const useCurrentOrderStore = create<IUseCurrentOrderState>(
         set({
           number: getNextOrderNumber(),
           items: [itemToAdd],
-          rounds: [[itemToAdd]],
+          rounds: [{ number: 1, items: [itemToAdd] }],
         });
 
         return;
@@ -39,21 +39,35 @@ export const useCurrentOrderStore = create<IUseCurrentOrderState>(
 
       // ====
 
-      const currentRound = rounds.length - 1;
+      const lastRoundNumber = rounds.length;
+      const currentRound = rounds.find(
+        (round) => round.number === lastRoundNumber,
+      );
 
-      const existingItemInRound = rounds[currentRound].find(
+      if (!currentRound) {
+        set({ items: updatedItems });
+        return;
+      }
+
+      const existingItemInRound = currentRound.items.find(
         (item) => item.productId === itemToAdd.productId,
       );
 
-      const updatedCurrentRound = existingItemInRound
-        ? rounds[currentRound].map((item) =>
-            item.productId === itemToAdd.productId
-              ? { ...item, quantity: item.quantity + itemToAdd.quantity }
-              : item,
-          )
-        : [...rounds[currentRound], itemToAdd];
+      const updatedCurrentRound = {
+        number: currentRound.number,
+        items: existingItemInRound
+          ? currentRound.items.map((item) =>
+              item.productId === itemToAdd.productId
+                ? { ...item, quantity: item.quantity + itemToAdd.quantity }
+                : item,
+            )
+          : [...currentRound.items, itemToAdd],
+      };
 
-      const updatedRounds = [...rounds.slice(0, -1), updatedCurrentRound];
+      const updatedRounds = [
+        ...rounds.filter((round) => round.number !== lastRoundNumber),
+        updatedCurrentRound,
+      ];
 
       set({ items: updatedItems, rounds: updatedRounds });
     },
@@ -70,9 +84,14 @@ export const useCurrentOrderStore = create<IUseCurrentOrderState>(
 
       // ====
 
-      const currentRound = rounds.length - 1;
+      const lastRoundNumber = rounds.length;
+      const currentRound = rounds.find(
+        (round) => round.number === lastRoundNumber,
+      );
 
-      const existingItemInRound = rounds[currentRound].find(
+      if (!currentRound) return;
+
+      const existingItemInRound = currentRound.items.find(
         (item) => item.productId === itemToSubtract.productId,
       );
 
@@ -91,20 +110,26 @@ export const useCurrentOrderStore = create<IUseCurrentOrderState>(
         })
         .filter((item) => item.quantity > 0);
 
-      const updatedCurrentRound = rounds[currentRound]
-        .map((item) => {
-          if (item.productId === itemToSubtract.productId) {
-            return {
-              ...item,
-              quantity: item.quantity - itemToSubtract.quantity,
-            };
-          } else {
-            return item;
-          }
-        })
-        .filter((item) => item.quantity > 0);
+      const updatedCurrentRound = {
+        number: currentRound.number,
+        items: currentRound.items
+          .map((item) => {
+            if (item.productId === itemToSubtract.productId) {
+              return {
+                ...item,
+                quantity: item.quantity - itemToSubtract.quantity,
+              };
+            } else {
+              return item;
+            }
+          })
+          .filter((item) => item.quantity > 0),
+      };
 
-      const updatedRounds = [...rounds.slice(0, -1), updatedCurrentRound];
+      const updatedRounds = [
+        ...rounds.filter((round) => round.number !== lastRoundNumber),
+        updatedCurrentRound,
+      ];
 
       set({ items: updatedItems, rounds: updatedRounds });
     },
@@ -120,13 +145,27 @@ export const useCurrentOrderStore = create<IUseCurrentOrderState>(
 
       // ====
 
-      const currentRound = rounds.length - 1;
-
-      const updatedCurrentRound = rounds[currentRound].filter(
-        (item) => item.productId !== idToDelete,
+      const lastRoundNumber = rounds.length;
+      const currentRound = rounds.find(
+        (round) => round.number === lastRoundNumber,
       );
 
-      const updatedRounds = [...rounds.slice(0, -1), updatedCurrentRound];
+      if (!currentRound) {
+        set({ items: updatedItems });
+        return;
+      }
+
+      const updatedCurrentRound = {
+        number: currentRound.number,
+        items: currentRound.items.filter(
+          (item) => item.productId !== idToDelete,
+        ),
+      };
+
+      const updatedRounds = [
+        ...rounds.filter((round) => round.number !== lastRoundNumber),
+        updatedCurrentRound,
+      ];
 
       set({ items: updatedItems, rounds: updatedRounds });
     },
@@ -138,7 +177,13 @@ export const useCurrentOrderStore = create<IUseCurrentOrderState>(
         id: order.id,
         number: order.number,
         items: [...order.items],
-        rounds: [...order.rounds, []],
+        rounds: [
+          ...order.rounds,
+          {
+            number: order.rounds.length + 1,
+            items: [],
+          },
+        ],
       });
     },
   }),

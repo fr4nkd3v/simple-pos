@@ -3,57 +3,57 @@ import { Fragment } from 'react/jsx-runtime';
 import { useOrderContext } from './order-item.context';
 import { getProductDetail } from '@/services';
 import { useMemo } from 'react';
+import type { IDetailedOrderRound } from '@/types';
 
 export const OrderItemBody = () => {
   const { order, isExpanded } = useOrderContext();
 
-  const detailedItems = useMemo(() => {
-    return order.items
-      .map((item) => {
-        const product = getProductDetail(item.productId);
-        if (!product) return null;
-
-        return { ...product, quantity: item.quantity };
-      })
-      .filter((item) => item !== null);
-  }, [order.items]);
-
-  const detailedRounds = useMemo(() => {
+  const detailedRounds: IDetailedOrderRound[] = useMemo(() => {
     return order.rounds.map((round) => {
-      return round
-        .map((item) => {
-          const product = getProductDetail(item.productId);
-          if (!product) return null;
+      return {
+        number: round.number,
+        items: round.items
+          .map((item) => {
+            const product = getProductDetail(item.productId);
+            if (!product) return null;
 
-          return { ...product, quantity: item.quantity };
-        })
-        .filter((item) => item !== null);
+            return { ...product, quantity: item.quantity };
+          })
+          .filter((item) => item !== null),
+      };
     });
   }, [order.rounds]);
 
-  const compactRoundList = detailedRounds.map((round, index) => (
-    <Fragment key={index}>
-      <p className='font-semibold text-gray-500'>Ronda {index + 1}:</p>
-      {round.map((item, index) => (
-        <Fragment key={item.id}>
-          {index > 0 && <span> + </span>}
-          <span className='font-semibold lining-nums tabular-nums'>
-            {item.quantity}
-          </span>{' '}
-          <span>{item.name}</span>
-        </Fragment>
-      ))}
+  const compactRoundList = detailedRounds.map((round) => (
+    <Fragment key={round.number}>
+      <p className='font-semibold text-gray-400'>Ronda {round.number}:</p>
+      <p className='pl-4'>
+        {round.items.map((item, index) => (
+          <Fragment key={item.id}>
+            {index > 0 && <span> + </span>}
+            <span className='font-semibold lining-nums tabular-nums'>
+              {item.quantity}
+            </span>{' '}
+            <span>{item.name}</span>
+          </Fragment>
+        ))}
+      </p>
     </Fragment>
   ));
 
-  const totalQuantity = detailedItems.reduce(
-    (sum, item) => sum + item.quantity,
-    0,
-  );
-  const totalPrice = detailedItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0,
-  );
+  const { totalQuantity, totalPrice } = useMemo(() => {
+    let totalQuantity = 0,
+      totalPrice = 0;
+
+    for (const round of detailedRounds) {
+      for (const item of round.items) {
+        totalQuantity += item.quantity;
+        totalPrice += item.price * item.quantity;
+      }
+    }
+
+    return { totalQuantity, totalPrice };
+  }, [detailedRounds]);
 
   return (
     <div>
@@ -61,16 +61,16 @@ export const OrderItemBody = () => {
 
       {isExpanded && (
         <ol className='rounded-lg border border-gray-200'>
-          {detailedRounds.map((round, index) => (
+          {detailedRounds.map((round) => (
             <li
-              key={index}
+              key={round.number}
               className='flex flex-col gap-2 pb-3'
             >
               <div className='bg-gray-100 px-4 py-2 text-sm font-medium text-gray-500'>
-                Ronda {index + 1}
+                Ronda {round.number}
               </div>
               <ul>
-                {round.map((item) => (
+                {round.items.map((item) => (
                   <li
                     className='flex gap-2 px-5 text-sm'
                     key={item.id}

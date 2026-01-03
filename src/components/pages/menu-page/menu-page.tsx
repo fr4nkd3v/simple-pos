@@ -33,6 +33,7 @@ export const MenuPage = () => {
     subtractCurrentOrderItem,
     clearCurrentOrder,
     getQuantityInCurrentRound,
+    isEditing,
   } = useCurrentOrderDetail();
 
   const handleItemClick = (itemId: string) => {
@@ -50,8 +51,6 @@ export const MenuPage = () => {
   };
 
   const handleConfirm = () => {
-    const isEditing = currentOrderRounds.length > 1;
-
     if (isEditing && currentOrderId) {
       updateOrder({
         id: currentOrderId,
@@ -72,7 +71,20 @@ export const MenuPage = () => {
     clearCurrentOrder();
   };
 
-  const handleDiscard = () => setOpenConfirmDiscard(true);
+  const handleDiscard = () => {
+    if (isEditing) {
+      const currentRoundHasItems =
+        currentOrderRounds[currentOrderRounds.length - 1].items.length;
+      if (currentRoundHasItems) {
+        setOpenConfirmDiscard(true);
+      } else {
+        clearCurrentOrder();
+      }
+      return;
+    }
+
+    setOpenConfirmDiscard(true);
+  };
 
   return (
     <div className='relative flex flex-col gap-5 p-5'>
@@ -109,14 +121,14 @@ export const MenuPage = () => {
         )}
       </ul>
 
-      {orderNumber && currentOrderItems.length && (
+      {orderNumber && currentOrderItems.length ? (
         <div className='fixed bottom-current-order-offset w-[calc(100%_-_2.5rem)]'>
           <CurrentOrderControl
             onDiscard={handleDiscard}
             onConfirm={handleConfirm}
           />
         </div>
-      )}
+      ) : null}
 
       <ConfirmDiscardDialog
         open={openConfirmDiscard}

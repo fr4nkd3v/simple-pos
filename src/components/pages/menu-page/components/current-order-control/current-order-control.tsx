@@ -9,12 +9,13 @@ export const CurrentOrderControl = ({
 }: TCurrentOrderControlProps) => {
   const {
     orderNumberLabel,
-    currentOrderDetailedRounds: currentOrderRounds,
+    currentOrderDetailedReverseRounds: currentOrderReverseRounds,
     itemsCount,
     totalPrice,
     addCurrentOrderItem,
     subtractCurrentOrderItem,
     deleteCurrentOrderItem,
+    isEditing,
   } = useCurrentOrderDetail();
 
   const handleItemAdd = (itemId: string) => {
@@ -92,30 +93,41 @@ export const CurrentOrderControl = ({
 
         <div className='border-b border-gray-200 pb-4'>
           <ol>
-            {currentOrderRounds.map((round, index) => {
+            {currentOrderReverseRounds.map((round) => {
+              const isCurrentNewRound =
+                isEditing && round.number === currentOrderReverseRounds.length;
+              const hasItems = round.items.length;
+
               return (
-                <li key={index}>
+                <li key={round.number}>
                   <div className='bg-gray-100 px-6 py-2 text-xs'>
-                    Ronda {index + 1}
+                    {isCurrentNewRound ? 'Nueva ronda ' : 'Ronda '}
+                    {round.number}
                   </div>
-                  <ul>
-                    {round.map((item) => {
-                      return (
-                        <CurrentOrderItem
-                          key={item.id}
-                          itemId={item.id}
-                          quantity={item.quantity}
-                          productName={item.name}
-                          price={item.quantity * item.price}
-                          imagePath={item.imagePath}
-                          imageAltText={item.imageAltText}
-                          onAdd={handleItemAdd}
-                          onSubtract={handleItemSubtract}
-                          onDelete={handleItemDelete}
-                        />
-                      );
-                    })}
-                  </ul>
+                  {hasItems ? (
+                    <ul>
+                      {round.items.map((item) => {
+                        return (
+                          <CurrentOrderItem
+                            key={item.id}
+                            itemId={item.id}
+                            quantity={item.quantity}
+                            productName={item.name}
+                            price={item.quantity * item.price}
+                            imagePath={item.imagePath}
+                            imageAltText={item.imageAltText}
+                            onAdd={handleItemAdd}
+                            onSubtract={handleItemSubtract}
+                            onDelete={handleItemDelete}
+                          />
+                        );
+                      })}
+                    </ul>
+                  ) : (
+                    <div className='flex h-14 items-center justify-center text-sm text-gray-500'>
+                      Aún no has agregado productos.
+                    </div>
+                  )}
                 </li>
               );
             })}

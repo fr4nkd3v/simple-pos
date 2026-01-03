@@ -1,14 +1,4 @@
-import type { TCategory } from './categories.data';
-
-export interface IProduct {
-  id: string;
-  name: string;
-  description?: string;
-  category: TCategory;
-  price: number;
-  imagePath: string;
-  imageAltText: string;
-}
+import type { IProduct } from '@/types';
 
 export const productsData: IProduct[] = [
   {

@@ -1,4 +1,4 @@
-import type { IProduct } from '@/data';
+import type { IProduct } from '@/types';
 
 export const filtersMenuAdapter = (productsData: IProduct[]) => {
   const ObjCategoryCount: Record<string, number> = productsData.reduce(

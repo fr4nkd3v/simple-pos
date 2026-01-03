@@ -1,6 +1,13 @@
+import type { IProduct } from './products.types';
+
 export interface IOrderItem {
   productId: string;
   quantity: number;
+}
+
+export interface IOrderRound {
+  number: number;
+  items: IOrderItem[];
 }
 
 export interface IOrder {
@@ -11,5 +18,11 @@ export interface IOrder {
   // client: string; // Client Data
   // TODO: Rounds is part of new structure, make it mandatory later and remove items
   items: IOrderItem[];
-  rounds: IOrderItem[][];
+  rounds: IOrderRound[];
+}
+
+export type TDetailedOrderItem = Omit<IOrderItem, 'productId'> & IProduct;
+
+export interface IDetailedOrderRound extends Pick<IOrderRound, 'number'> {
+  items: TDetailedOrderItem[];
 }

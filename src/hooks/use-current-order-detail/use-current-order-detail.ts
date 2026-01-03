@@ -1,5 +1,6 @@
 import { getProductDetail, getProductPrice } from '@/services/products';
 import { useCurrentOrderStore } from '@/stores/use-current-order-store';
+import type { IDetailedOrderRound } from '@/types';
 import { useCallback, useMemo } from 'react';
 
 export const useCurrentOrderDetail = () => {
@@ -45,17 +46,29 @@ export const useCurrentOrderDetail = () => {
 
   const detailedRounds = useMemo(
     () =>
-      orderRounds.map((round) => {
-        return round
-          .map((item) => {
-            const productDetail = getProductDetail(item.productId);
-            if (!productDetail) return null;
+      [...orderRounds]
+        .map((round) => {
+          const detailedRound: IDetailedOrderRound = {
+            number: round.number,
+            items: round.items
+              .map((item) => {
+                const productDetail = getProductDetail(item.productId);
+                if (!productDetail) return null;
 
-            return { quantity: item.quantity, ...productDetail };
-          })
-          .filter((item) => item !== null);
-      }),
+                return { quantity: item.quantity, ...productDetail };
+              })
+              .filter((item) => item !== null),
+          };
+
+          return detailedRound;
+        })
+        .sort((a, b) => a.number - b.number),
     [orderRounds],
+  );
+
+  const detailedReverseRounds = useMemo(
+    () => [...detailedRounds].reverse(),
+    [detailedRounds],
   );
 
   const getQuantityInCurrentOrder = useCallback(
@@ -72,9 +85,14 @@ export const useCurrentOrderDetail = () => {
     (productId: string): number | undefined => {
       if (!orderRounds.length) return;
 
-      const currentRound = orderRounds.length - 1;
+      const lastRoundNumber = orderRounds.length;
+      const currentRound = orderRounds.find(
+        (round) => round.number === lastRoundNumber,
+      );
 
-      const foundItem = orderRounds[currentRound].find(
+      if (!currentRound) return;
+
+      const foundItem = currentRound.items.find(
         (item) => item.productId === productId,
       );
       if (!foundItem || foundItem.quantity < 1) return;
@@ -83,6 +101,8 @@ export const useCurrentOrderDetail = () => {
     },
     [orderRounds],
   );
+
+  const isEditing = orderRounds.length > 1;
 
   return {
     orderNumber,
@@ -94,11 +114,13 @@ export const useCurrentOrderDetail = () => {
     currentOrderItems: orderItems,
     currentOrderRounds: orderRounds,
     currentOrderDetailedRounds: detailedRounds,
+    currentOrderDetailedReverseRounds: detailedReverseRounds,
     addCurrentOrderItem,
     subtractCurrentOrderItem,
     deleteCurrentOrderItem,
     clearCurrentOrder,
     getQuantityInCurrentOrder,
     getQuantityInCurrentRound,
+    isEditing,
   };
 };

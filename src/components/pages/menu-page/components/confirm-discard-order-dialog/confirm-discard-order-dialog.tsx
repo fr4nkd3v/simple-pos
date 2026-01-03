@@ -9,12 +9,28 @@ import {
   AlertDialogTitle,
 } from '@/components/shadcn';
 import type { TConfirmDiscardDialogProps } from './confirm-discard-order-dialog.types';
+import { useCurrentOrderDetail } from '@/hooks';
 
 export const ConfirmDiscardDialog = ({
   open,
   onOpenChange,
   onConfirm,
 }: TConfirmDiscardDialogProps) => {
+  const { isEditing } = useCurrentOrderDetail();
+
+  const discardCreate = {
+    title: '¿Seguro que quieres descartar esta cuenta?',
+    description:
+      'Se perderá todo el registro de los productos que escogiste para que puedas iniciar una nueva cuenta desde cero.',
+  };
+  const discardEditing = {
+    title: '¿Seguro que quieres descartar la edición de esta cuenta?',
+    description:
+      'Se perderá todo el registro de los productos que escogiste en esta ultima ronda.',
+  };
+
+  const discardTexts = isEditing ? discardEditing : discardCreate;
+
   return (
     <AlertDialog
       open={open}
@@ -22,12 +38,9 @@ export const ConfirmDiscardDialog = ({
     >
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            ¿Seguro que quieres descartar esta cuenta?
-          </AlertDialogTitle>
+          <AlertDialogTitle>{discardTexts.title}</AlertDialogTitle>
           <AlertDialogDescription>
-            Se perderá todo el registro de los productos que escogiste para que
-            puedas iniciar una nueva cuenta desde cero.
+            {discardTexts.description}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
