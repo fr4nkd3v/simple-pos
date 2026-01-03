@@ -25,9 +25,14 @@ export const OrderItemBody = () => {
   }, [order.rounds]);
 
   const compactRoundList = detailedRounds.map((round) => (
-    <Fragment key={round.number}>
-      <p className='font-semibold text-gray-400'>Ronda {round.number}:</p>
-      <p className='pl-4'>
+    <div
+      key={round.number}
+      className='flex gap-2'
+    >
+      <p className='inline-flex w-6 shrink-0 font-semibold text-gray-400'>
+        R{round.number}:
+      </p>
+      <p>
         {round.items.map((item, index) => (
           <Fragment key={item.id}>
             {index > 0 && <span> + </span>}
@@ -38,7 +43,7 @@ export const OrderItemBody = () => {
           </Fragment>
         ))}
       </p>
-    </Fragment>
+    </div>
   ));
 
   const { totalQuantity, totalPrice } = useMemo(() => {

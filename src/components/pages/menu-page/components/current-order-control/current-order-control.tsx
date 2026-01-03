@@ -91,7 +91,7 @@ export const CurrentOrderControl = ({
           </div>
         </Drawer.Header>
 
-        <div className='border-b border-gray-200 pb-4'>
+        <div className='overflow-auto border-b border-gray-200 pb-4'>
           <ol>
             {currentOrderReverseRounds.map((round) => {
               const isCurrentNewRound =
