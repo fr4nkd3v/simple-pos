@@ -1,5 +1,6 @@
 import { Icon } from '@/components/shared';
 import type { TCurrentOrderItemProps } from './current-order-control.types';
+import { formatToPrice } from '@/utils';
 
 export const CurrentOrderItem = ({
   itemId,
@@ -51,7 +52,7 @@ export const CurrentOrderItem = ({
       </div>
 
       <div className='flex items-center gap-4'>
-        <span>S/ {price.toFixed(2)}</span>
+        <span>{formatToPrice(price)}</span>
 
         <div className='flex w-fit shrink-0 items-center overflow-hidden rounded-s-lg bg-gray-200'>
           <button

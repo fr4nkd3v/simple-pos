@@ -2,6 +2,32 @@ export const formatNumberToPrice = (price: number): string => {
   return 'S/ ' + price.toFixed(2);
 };
 
+type TFormatToPriceOptions = {
+  showSymbol?: boolean;
+  forceDecimals?: boolean;
+};
+
+export const formatToPrice = (
+  amount: number | string,
+  optionals: TFormatToPriceOptions = { showSymbol: true, forceDecimals: true },
+): string => {
+  const value = typeof amount === 'string' ? parseFloat(amount) : amount;
+
+  // Validate if the result is a valid number
+  if (isNaN(value)) {
+    throw new Error('El valor proporcionado no es un número válido.');
+  }
+
+  const { showSymbol = true, forceDecimals = true } = optionals;
+
+  return new Intl.NumberFormat('es-PE', {
+    style: showSymbol ? 'currency' : 'decimal',
+    currency: 'PEN',
+    minimumFractionDigits: forceDecimals ? 2 : 0,
+    maximumFractionDigits: 2,
+  }).format(value);
+};
+
 export const capitalize = (text: string) => {
   return text[0].toUpperCase() + text.slice(1).toLowerCase();
 };

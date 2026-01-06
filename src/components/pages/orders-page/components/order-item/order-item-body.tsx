@@ -4,6 +4,7 @@ import { useOrderContext } from './order-item.context';
 import { getProductDetail } from '@/services';
 import { useMemo } from 'react';
 import type { IDetailedOrderRound } from '@/types';
+import { formatToPrice } from '@/utils';
 
 export const OrderItemBody = () => {
   const { order, isExpanded } = useOrderContext();
@@ -87,7 +88,7 @@ export const OrderItemBody = () => {
                       <span>{item.name}</span>
                     </p>
 
-                    <p>S/ {(item.price * item.quantity).toFixed(2)}</p>
+                    <p>{formatToPrice(item.price * item.quantity)}</p>
                   </li>
                 ))}
               </ul>
@@ -106,7 +107,7 @@ export const OrderItemBody = () => {
         </div>
         <div className='flex items-center gap-2 text-gray-600'>
           <span>Total:</span>
-          <span className='font-bold'>S/ {totalPrice.toFixed(2)}</span>
+          <span className='font-bold'>{formatToPrice(totalPrice)}</span>
         </div>
       </div>
     </div>

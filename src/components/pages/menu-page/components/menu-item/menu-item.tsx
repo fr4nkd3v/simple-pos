@@ -1,4 +1,4 @@
-import { capitalize, formatNumberToPrice } from '@/utils';
+import { capitalize, formatToPrice } from '@/utils';
 import type { TMenuItemProps } from './menu-item.types';
 import { Badge, Button, Icon } from '@/components/shared';
 
@@ -33,7 +33,7 @@ export const MenuItem = ({
             {capitalize(category)}
           </p>
           <p className='text-2xl font-bold text-gray-700'>
-            {formatNumberToPrice(price)}
+            {formatToPrice(price)}
           </p>
         </div>
 

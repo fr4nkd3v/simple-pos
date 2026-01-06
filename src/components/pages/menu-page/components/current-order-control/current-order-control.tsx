@@ -2,6 +2,7 @@ import { Button, Drawer, Icon } from '@/components/shared';
 import { useCurrentOrderDetail } from '@/hooks';
 import { CurrentOrderItem } from './current-order-item';
 import type { TCurrentOrderControlProps } from './current-order-control.types';
+import { formatToPrice } from '@/utils';
 
 export const CurrentOrderControl = ({
   onDiscard,
@@ -55,7 +56,12 @@ export const CurrentOrderControl = ({
                 name='penLi'
                 className='aspect-square h-5 text-gray-500'
               />
-              <span className='font-semibold'>{totalPrice}</span>
+              <span className='font-semibold'>
+                {formatToPrice(totalPrice, {
+                  showSymbol: false,
+                  forceDecimals: false,
+                })}
+              </span>
             </div>
           </div>
         </button>
@@ -86,7 +92,12 @@ export const CurrentOrderControl = ({
                 name='penLi'
                 className='aspect-square h-5 text-gray-500'
               />
-              <span className='font-semibold'>{totalPrice}</span>
+              <span className='font-semibold'>
+                {formatToPrice(totalPrice, {
+                  showSymbol: false,
+                  forceDecimals: false,
+                })}
+              </span>
             </div>
           </div>
         </Drawer.Header>
