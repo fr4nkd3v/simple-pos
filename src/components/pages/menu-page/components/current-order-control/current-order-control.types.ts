@@ -14,3 +14,7 @@ export type TCurrentOrderItemProps = {
   onSubtract: (itemId: string) => void;
   onDelete: (itemId: string) => void;
 };
+
+export type TCurrentOrderControlPreviewProps = {
+  className?: string;
+};

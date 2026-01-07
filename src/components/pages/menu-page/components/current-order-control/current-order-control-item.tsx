@@ -2,7 +2,7 @@ import { Icon } from '@/components/shared';
 import type { TCurrentOrderItemProps } from './current-order-control.types';
 import { formatToPrice } from '@/utils';
 
-export const CurrentOrderItem = ({
+export const CurrentOrderControlItem = ({
   itemId,
   quantity,
   productName,
