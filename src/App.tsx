@@ -1,6 +1,11 @@
 import { type JSX } from 'react';
 
-import { MenuPage, OrdersPage, ReportPage } from '@/components/pages';
+import {
+  MenuPage,
+  OrdersPage,
+  PaymentPage,
+  ReportPage,
+} from '@/components/pages';
 import { Navbar, Toaster } from '@/components/shared';
 import type { EPage } from './types';
 import { usePageStore } from './stores/use-page/use-page';
@@ -12,6 +17,7 @@ function App() {
     menu: <MenuPage />,
     orders: <OrdersPage />,
     reports: <ReportPage />,
+    payment: <PaymentPage />,
   };
 
   return (

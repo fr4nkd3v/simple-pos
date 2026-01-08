@@ -1,4 +1,4 @@
-import { Button, Drawer } from '@/components/shared';
+import { Button, Drawer, Icon } from '@/components/shared';
 import type { TCurrentOrderControlProps } from './current-order-control.types';
 
 import { CurrentOrderControlPreview } from './current-order-control-preview';
@@ -31,6 +31,10 @@ export const CurrentOrderControl = ({
               className='shrink-0'
               onClick={onDiscard}
             >
+              <Icon
+                name='slashLi'
+                className='aspect-square w-5'
+              />
               Descartar
             </Button>
             <Button
@@ -39,6 +43,10 @@ export const CurrentOrderControl = ({
               className='flex-1'
               onClick={onConfirm}
             >
+              <Icon
+                name='receiptLi'
+                className='aspect-square w-5'
+              />
               Confirmar
             </Button>
           </div>

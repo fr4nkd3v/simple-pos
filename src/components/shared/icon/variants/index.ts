@@ -13,3 +13,8 @@ export * from './trash-li';
 export * from './dots-li';
 export * from './arrow-down-li';
 export * from './arrow-up-li';
+export * from './slash-li';
+export * from './edit-li';
+export * from './wallet-money-li';
+export * from './share-li';
+export * from './copy-li';
