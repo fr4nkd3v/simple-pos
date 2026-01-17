@@ -1,4 +1,4 @@
-import { Label, RadioGroup, RadioGroupItem } from '@/components/shared';
+import { RadioButton } from '@/components/shared';
 import { AccordionItem } from '../accordion-item';
 import { Accordion } from '@/components/shadcn/accordion';
 import { useState } from 'react';
@@ -37,36 +37,28 @@ export const PaymentForm = () => {
           title='Paga con:'
         />
         <AccordionItem.Content>
-          <RadioGroup defaultValue='cash'>
-            <div className='flex items-center space-x-2'>
-              <RadioGroupItem
-                value='cash'
-                id='cash'
-              />
-              <Label htmlFor='cash'>Efectivo</Label>
-            </div>
-            <div className='flex items-center space-x-2'>
-              <RadioGroupItem
-                value='yape'
-                id='yape'
-              />
-              <Label htmlFor='yape'>Yape</Label>
-            </div>
-            <div className='flex items-center space-x-2'>
-              <RadioGroupItem
-                value='plin'
-                id='plin'
-              />
-              <Label htmlFor='plin'>Plin</Label>
-            </div>
-            <div className='flex items-center space-x-2'>
-              <RadioGroupItem
-                value='other'
-                id='other'
-              />
-              <Label htmlFor='other'>Otros</Label>
-            </div>
-          </RadioGroup>
+          <RadioButton.Group defaultValue='cash'>
+            <RadioButton.Item
+              id='cash'
+              value='cash'
+              label='Efectivo'
+            />
+            <RadioButton.Item
+              id='yape'
+              value='yape'
+              label='Yape'
+            />
+            <RadioButton.Item
+              id='plin'
+              value='plin'
+              label='Plin'
+            />
+            <RadioButton.Item
+              id='other'
+              value='other'
+              label='Otro'
+            />
+          </RadioButton.Group>
         </AccordionItem.Content>
       </AccordionItem.Root>
 

@@ -16,11 +16,7 @@ export const AccordionItemHeader = ({
   title: string;
 }) => {
   return (
-    <div
-      className={classNames('flex h-14 items-center gap-2 px-4', {
-        'text-gray-400': !checked,
-      })}
-    >
+    <div className='flex h-14 items-center gap-2 px-4'>
       <Switch
         checked={checked}
         onCheckedChange={onCheckedChange}
@@ -62,7 +58,7 @@ export const AccordionItemRoot = ({
       value={value}
       className={classNames('rounded-xl', {
         'border-2 border-gray-600 last:border-b-2': checked,
-        'border border-gray-300 bg-gray-100 last:border-b': !checked,
+        'border border-gray-300 bg-gray-50 last:border-b': !checked,
       })}
     >
       {children}

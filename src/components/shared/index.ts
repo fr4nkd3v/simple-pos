@@ -8,3 +8,4 @@ export * from './badge';
 export * from './sonner';
 export * from './radio-group';
 export * from './label';
+export * from './radio-button';
