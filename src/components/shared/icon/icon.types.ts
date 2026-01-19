@@ -19,6 +19,9 @@ import {
   WalletMoneyLi,
   ShareLi,
   CopyLi,
+  DollarCircleLi,
+  YapeLi,
+  PlinLi,
 } from './variants';
 
 export const iconsMap = {
@@ -42,6 +45,9 @@ export const iconsMap = {
   walletMoneyLi: WalletMoneyLi,
   shareLi: ShareLi,
   copyLi: CopyLi,
+  dollarCircleLi: DollarCircleLi,
+  yapeLi: YapeLi,
+  plinLi: PlinLi,
 };
 
 export type TIconName = keyof typeof iconsMap;

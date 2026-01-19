@@ -18,3 +18,6 @@ export * from './edit-li';
 export * from './wallet-money-li';
 export * from './share-li';
 export * from './copy-li';
+export * from './dollar-circle-li';
+export * from './yape-li';
+export * from './plin-li';

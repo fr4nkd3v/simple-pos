@@ -1,7 +1,8 @@
-import { Label, RadioGroup, RadioGroupItem } from '@/components/shared';
+import { Icon, Label, RadioGroup, RadioGroupItem } from '@/components/shared';
 import { classNames } from '@/utils';
 import type {
   TRadioButtonGroupProps,
+  TRadioButtonItemIcon,
   TRadioButtonItemProps,
 } from './radio-button.types';
 
@@ -9,12 +10,13 @@ export const RadioButtonItem = ({
   label,
   value,
   id,
+  children,
 }: TRadioButtonItemProps) => {
   return (
     <Label
       htmlFor={id}
       className={classNames(
-        'relative flex min-h-24 flex-1 cursor-pointer flex-col items-center justify-center space-x-2 bg-white py-5 font-semibold text-gray-500',
+        'relative flex min-h-24 flex-1 cursor-pointer flex-col items-center justify-center bg-white py-5 font-semibold text-gray-500',
         'has-[[data-state=checked]]:bg-gray-900 has-[[data-state=checked]]:text-white',
       )}
     >
@@ -23,8 +25,21 @@ export const RadioButtonItem = ({
         id={id}
         className='absolute left-2 top-2 data-[state=checked]:border-white data-[state=checked]:fill-white'
       />
-      {label}
+      {children ? children : null}
+      {label && <span>{label}</span>}
     </Label>
+  );
+};
+
+export const RadioButtonItemIcon = ({
+  icon,
+  className,
+}: TRadioButtonItemIcon) => {
+  return (
+    <Icon
+      name={icon}
+      className={classNames('size-7', className)}
+    />
   );
 };
 

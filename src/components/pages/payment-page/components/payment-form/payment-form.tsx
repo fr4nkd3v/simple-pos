@@ -1,4 +1,4 @@
-import { RadioButton } from '@/components/shared';
+import { Button, Icon, RadioButton } from '@/components/shared';
 import { AccordionItem } from '../accordion-item';
 import { Accordion } from '@/components/shadcn/accordion';
 import { useState } from 'react';
@@ -37,28 +37,56 @@ export const PaymentForm = () => {
           title='Paga con:'
         />
         <AccordionItem.Content>
-          <RadioButton.Group defaultValue='cash'>
-            <RadioButton.Item
-              id='cash'
-              value='cash'
-              label='Efectivo'
-            />
-            <RadioButton.Item
-              id='yape'
-              value='yape'
-              label='Yape'
-            />
-            <RadioButton.Item
-              id='plin'
-              value='plin'
-              label='Plin'
-            />
-            <RadioButton.Item
-              id='other'
-              value='other'
-              label='Otro'
-            />
-          </RadioButton.Group>
+          <div className='flex flex-col gap-7'>
+            <RadioButton.Group defaultValue='cash'>
+              <RadioButton.Item
+                id='cash'
+                value='cash'
+                label='Efectivo'
+              >
+                <RadioButton.ItemIcon icon='dollarCircleLi' />
+              </RadioButton.Item>
+
+              <RadioButton.Item
+                id='yape'
+                value='yape'
+              >
+                <RadioButton.ItemIcon
+                  icon='yapeLi'
+                  className='size-14'
+                />
+              </RadioButton.Item>
+
+              <RadioButton.Item
+                id='plin'
+                value='plin'
+              >
+                <RadioButton.ItemIcon
+                  icon='plinLi'
+                  className='size-14'
+                />
+              </RadioButton.Item>
+
+              <RadioButton.Item
+                id='other'
+                value='other'
+                label='Otro'
+              >
+                <RadioButton.ItemIcon icon='walletMoneyLi' />
+              </RadioButton.Item>
+            </RadioButton.Group>
+
+            <Button
+              variant='outline'
+              size='lg'
+            >
+              <Icon
+                name='addLi'
+                className='mr-2 size-5'
+              />
+              Agregar otro medio de pago
+            </Button>
+          </div>
         </AccordionItem.Content>
       </AccordionItem.Root>
 
