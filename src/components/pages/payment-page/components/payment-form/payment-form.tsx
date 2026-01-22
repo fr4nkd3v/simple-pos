@@ -1,7 +1,8 @@
-import { Button, Icon, RadioButton } from '@/components/shared';
+import { Button, Icon, RadioButton, Select } from '@/components/shared';
 import { AccordionItem } from '../accordion-item';
 import { Accordion } from '@/components/shadcn/accordion';
 import { useState } from 'react';
+import { Input } from '@/components/shadcn/input';
 
 export const PaymentForm = () => {
   type TPaymentMethod = 'debit' | 'credit';
@@ -86,6 +87,46 @@ export const PaymentForm = () => {
               />
               Agregar otro medio de pago
             </Button>
+
+            <div className='flex gap-2'>
+              <Input
+                type='number'
+                placeholder='0.00'
+                size='lg'
+              />
+
+              <Select.Root
+                placeholder='Medio de pago'
+                size='lg'
+              >
+                <Select.Item
+                  label='Efectivo'
+                  value='cash'
+                />
+                <Select.Item
+                  label='Yape'
+                  value='yape'
+                />
+                <Select.Item
+                  label='Plin'
+                  value='plin'
+                />
+                <Select.Item
+                  label='Otro'
+                  value='other'
+                />
+              </Select.Root>
+
+              <Button
+                size='icon-lg'
+                variant='secondary'
+              >
+                <Icon
+                  name='trashLi'
+                  className='size-5'
+                />
+              </Button>
+            </div>
           </div>
         </AccordionItem.Content>
       </AccordionItem.Root>

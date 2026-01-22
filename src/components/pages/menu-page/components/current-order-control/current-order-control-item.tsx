@@ -55,6 +55,7 @@ export const CurrentOrderControlItem = ({
         <span>{formatToPrice(price)}</span>
 
         <div className='flex w-fit shrink-0 items-center overflow-hidden rounded-s-lg bg-gray-200'>
+          {/* Try replace with <Button size='icon-lg'... */}
           <button
             className='flex aspect-square w-10 shrink-0 items-center justify-center bg-gray-200'
             onClick={() => onDelete(itemId)}
