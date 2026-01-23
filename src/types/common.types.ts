@@ -4,3 +4,5 @@ export enum EPage {
   REPORTS_PAGE = 'reports',
   PAYMENT_PAGE = 'payment',
 }
+
+export type TPaymentMethod = 'cash' | 'yape' | 'plin' | 'other';
