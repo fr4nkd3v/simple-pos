@@ -8,6 +8,14 @@ export const getProductPrice = (productId: string) => {
   return foundProduct.price;
 };
 
+export const getProductName = (productId: string) => {
+  const foundProduct = productsData.find((product) => product.id === productId);
+
+  if (!foundProduct) return 0;
+
+  return foundProduct.name;
+};
+
 export const getProductDetail = (productId: string) => {
   const foundProduct = productsData.find((product) => product.id === productId);
 

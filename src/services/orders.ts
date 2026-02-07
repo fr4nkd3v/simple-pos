@@ -25,7 +25,7 @@ export const getOrders = (sort: 'asc' | 'desc' = 'asc'): IOrder[] => {
   }
 };
 
-const getOrderById = (idToFind: string): IOrder | null => {
+export const getOrderById = (idToFind: string): IOrder | null => {
   try {
     const data = localStorage.getItem(LOCAL_STORAGE_ORDERS_KEY);
     if (!data) return null;

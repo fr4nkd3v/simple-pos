@@ -4,11 +4,11 @@ import { Accordion } from '@/components/shadcn/accordion';
 import { useState } from 'react';
 import { PaymentItem } from './payment-item';
 import { PaymentSingleControl } from './payment-single-control';
+import type { TPaymentType } from '@/types';
 
 export const PaymentForm = () => {
-  type TPaymentMethod = 'debit' | 'credit';
   const [paymentMethodSelected, setPaymentMethodSelected] =
-    useState<TPaymentMethod>('debit');
+    useState<TPaymentType>('debit');
 
   const isDebit = paymentMethodSelected === 'debit';
   const isCredit = paymentMethodSelected === 'credit';
@@ -26,7 +26,7 @@ export const PaymentForm = () => {
       className='flex w-full flex-col gap-4'
       value={paymentMethodSelected}
       onValueChange={(value) => {
-        setPaymentMethodSelected(value as TPaymentMethod);
+        setPaymentMethodSelected(value as TPaymentType);
       }}
     >
       <AccordionItem.Root

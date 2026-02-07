@@ -1,7 +1,6 @@
 import { Button, Icon } from '@/components/shared';
 import { useOrderContext } from './order-item.context';
-import { useCurrentOrderStore } from '@/stores';
-import { usePageStore } from '@/stores/use-page/use-page';
+import { useCurrentOrderStore, usePageStore } from '@/stores';
 import { EPage } from '@/types';
 
 export const OrderItemFooter = () => {

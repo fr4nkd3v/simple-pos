@@ -8,7 +8,7 @@ import {
 } from '@/components/pages';
 import { Navbar, Toaster } from '@/components/shared';
 import type { EPage } from './types';
-import { usePageStore } from './stores/use-page/use-page';
+import { usePageStore } from './stores';
 
 function App() {
   const { selectedPage, setPage } = usePageStore();
