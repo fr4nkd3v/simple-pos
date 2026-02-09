@@ -10,3 +10,4 @@ export * from './radio-group';
 export * from './label';
 export * from './radio-button';
 export * from './select';
+export * from './alert';
