@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { IUsePageState } from './use-page.types';
+import type { IUsePageState } from './use-page-store.types';
 import { EPage } from '@/types';
 
 export const usePageStore = create<IUsePageState>((set) => ({
