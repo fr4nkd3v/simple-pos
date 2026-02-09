@@ -1,3 +1,5 @@
+import { EPaymentMethod, type TPaymentItem } from '@/types';
+
 export const formatNumberToPrice = (price: number): string => {
   return 'S/ ' + price.toFixed(2);
 };
@@ -56,4 +58,64 @@ export const formattedDate = (date: Date) => {
     hour: '2-digit',
     minute: '2-digit',
   }).format(date);
+};
+
+export const getFirstAvailablePaymentMethod = (
+  paymentItems: TPaymentItem[],
+): EPaymentMethod | null => {
+  if (paymentItems.length <= 0) {
+    return EPaymentMethod.CASH;
+  }
+
+  const availableMethods = [] as EPaymentMethod[];
+
+  const hasCash = paymentItems.some(
+    (item) => item.method === EPaymentMethod.CASH,
+  );
+  const hasYape = paymentItems.some(
+    (item) => item.method === EPaymentMethod.YAPE,
+  );
+  const hasPlin = paymentItems.some(
+    (item) => item.method === EPaymentMethod.PLIN,
+  );
+  const hasOther = paymentItems.some(
+    (item) => item.method === EPaymentMethod.OTHER,
+  );
+
+  if (!hasCash) availableMethods.push(EPaymentMethod.CASH);
+  if (!hasYape) availableMethods.push(EPaymentMethod.YAPE);
+  if (!hasPlin) availableMethods.push(EPaymentMethod.PLIN);
+  if (!hasOther) availableMethods.push(EPaymentMethod.OTHER);
+
+  if (availableMethods.length > 0) {
+    return availableMethods[0];
+  }
+
+  return null;
+};
+
+export const getAvailablePaymentMethods = (
+  paymentItems: TPaymentItem[],
+): EPaymentMethod[] => {
+  const availableMethods = [] as EPaymentMethod[];
+
+  const hasCash = paymentItems.some(
+    (item) => item.method === EPaymentMethod.CASH,
+  );
+  const hasYape = paymentItems.some(
+    (item) => item.method === EPaymentMethod.YAPE,
+  );
+  const hasPlin = paymentItems.some(
+    (item) => item.method === EPaymentMethod.PLIN,
+  );
+  const hasOther = paymentItems.some(
+    (item) => item.method === EPaymentMethod.OTHER,
+  );
+
+  if (!hasCash) availableMethods.push(EPaymentMethod.CASH);
+  if (!hasYape) availableMethods.push(EPaymentMethod.YAPE);
+  if (!hasPlin) availableMethods.push(EPaymentMethod.PLIN);
+  if (!hasOther) availableMethods.push(EPaymentMethod.OTHER);
+
+  return availableMethods;
 };

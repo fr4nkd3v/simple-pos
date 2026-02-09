@@ -1,9 +1,14 @@
-export type TPaymentMethod = 'cash' | 'yape' | 'plin' | 'other';
+export enum EPaymentMethod {
+  CASH = 'cash',
+  YAPE = 'yape',
+  PLIN = 'plin',
+  OTHER = 'other',
+}
 
 export type TPaymentType = 'debit' | 'credit';
 
 export type TPaymentItem = {
   amount: number;
-  method?: TPaymentMethod;
+  method: EPaymentMethod;
   type: TPaymentType;
 };

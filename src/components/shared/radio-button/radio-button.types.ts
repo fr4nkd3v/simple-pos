@@ -15,4 +15,5 @@ export type TRadioButtonItemProps = {
 export type TRadioButtonGroupProps = {
   defaultValue: string;
   children: React.ReactNode;
+  onValueChange?: (value: string) => void;
 };

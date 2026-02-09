@@ -46,11 +46,13 @@ export const RadioButtonItemIcon = ({
 export const RadioButtonGroup = ({
   defaultValue,
   children,
+  onValueChange,
 }: TRadioButtonGroupProps) => {
   return (
     <RadioGroup
       className='flex w-full gap-[1px] overflow-hidden rounded-lg border border-gray-300 bg-gray-300'
       defaultValue={defaultValue}
+      onValueChange={onValueChange}
     >
       {children}
     </RadioGroup>

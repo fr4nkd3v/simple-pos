@@ -16,6 +16,7 @@ export const PaymentPage = () => {
 
           <PaymentSummary />
 
+          {/* TODO: Payment Summary must be have share & copy buttons inner its structure */}
           <div className='flex gap-2'>
             <Button
               className='flex-1'

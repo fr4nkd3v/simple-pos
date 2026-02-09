@@ -1,10 +1,10 @@
-import type { TPaymentMethod } from '@/types';
+import { EPaymentMethod } from '@/types';
 
-export const PAYMENT_METHODS: Record<TPaymentMethod, string> = {
-  cash: 'Efectivo',
-  yape: 'Yape',
-  plin: 'Plin',
-  other: 'Otro',
+export const PAYMENT_METHODS: Record<EPaymentMethod, string> = {
+  [EPaymentMethod.CASH]: 'Efectivo',
+  [EPaymentMethod.YAPE]: 'Yape',
+  [EPaymentMethod.PLIN]: 'Plin',
+  [EPaymentMethod.OTHER]: 'Otro',
 } as const;
 
 export const PAYMENT_METHOD_OPTIONS = Object.entries(PAYMENT_METHODS).map(

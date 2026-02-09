@@ -13,14 +13,24 @@ export const SelectRoot = ({
   className,
   children,
   size = 'default',
+  value,
+  disabled = false,
+  onValueChange
 }: {
   placeholder: string;
   className?: string;
   children?: React.ReactNode;
   size?: ComponentProps<typeof SelectRawTrigger>['size'];
+  value?: string;
+  disabled?: boolean;
+  onValueChange?: (value: string) => void;
 }) => {
   return (
-    <SelectRaw>
+    <SelectRaw
+      value={value}
+      disabled={disabled}
+      onValueChange={onValueChange}
+    >
       <SelectRawTrigger
         className={className}
         size={size}

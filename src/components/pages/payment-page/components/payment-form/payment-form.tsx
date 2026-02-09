@@ -2,31 +2,50 @@ import { Button, Icon } from '@/components/shared';
 import { AccordionItem } from '../accordion-item';
 import { Accordion } from '@/components/shadcn/accordion';
 import { useState } from 'react';
-import { PaymentItem } from './payment-item';
-import { PaymentSingleControl } from './payment-single-control';
+import { PaymentFormItem } from './payment-form-item';
+import { PaymentFormSingleItem } from './payment-form-single-item';
 import type { TPaymentType } from '@/types';
+import { usePayOrderStore } from '@/stores';
 
 export const PaymentForm = () => {
-  const [paymentMethodSelected, setPaymentMethodSelected] =
+  const [paymentTypeSelected, setPaymentTypeSelected] =
     useState<TPaymentType>('debit');
 
-  const isDebit = paymentMethodSelected === 'debit';
-  const isCredit = paymentMethodSelected === 'credit';
+  const {
+    paymentItems,
+    addDebitPaymentItem,
+    changeUniquePaymentItemMethod,
+    updateDebitPaymentItem,
+    deleteDebitPaymentItem,
+  } = usePayOrderStore();
+  if (!paymentItems.length) return null;
+
+  const firstPaymentMethod = paymentItems[0].method;
+
+  const debitPaymentItems = paymentItems.filter(
+    (item) => item.type === 'debit',
+  );
+  const creditPaymentItems = paymentItems.filter(
+    (item) => item.type === 'credit',
+  );
+
+  const isDebit = debitPaymentItems.length > 0;
+  const isCredit = creditPaymentItems.length > 0;
 
   const handleDebitCheckedChange = (checked: boolean) => {
-    setPaymentMethodSelected(checked ? 'debit' : 'credit');
+    setPaymentTypeSelected(checked ? 'debit' : 'credit');
   };
   const handleCreditCheckedChange = (checked: boolean) => {
-    setPaymentMethodSelected(checked ? 'credit' : 'debit');
+    setPaymentTypeSelected(checked ? 'credit' : 'debit');
   };
 
   return (
     <Accordion
       type='single'
       className='flex w-full flex-col gap-4'
-      value={paymentMethodSelected}
+      value={paymentTypeSelected}
       onValueChange={(value) => {
-        setPaymentMethodSelected(value as TPaymentType);
+        setPaymentTypeSelected(value as TPaymentType);
       }}
     >
       <AccordionItem.Root
@@ -40,11 +59,32 @@ export const PaymentForm = () => {
         />
         <AccordionItem.Content>
           <div className='flex flex-col gap-7'>
-            <PaymentSingleControl />
+            {isDebit && debitPaymentItems.length === 1 ? (
+              <PaymentFormSingleItem
+                onValueChange={changeUniquePaymentItemMethod}
+                defaultValue={firstPaymentMethod}
+              />
+            ) : (
+              <ul className='flex flex-col gap-2'>
+                {debitPaymentItems.map((item, index) => (
+                  <PaymentFormItem
+                    key={item.method}
+                    method={item.method}
+                    amount={item.amount}
+                    onDelete={() => deleteDebitPaymentItem(item.method)}
+                    onAmountChange={(amount) =>
+                      updateDebitPaymentItem(item.method, amount)
+                    }
+                    blockMethodChange={index + 1 !== debitPaymentItems.length}
+                  />
+                ))}
+              </ul>
+            )}
 
             <Button
               variant='outline'
               size='lg'
+              onClick={addDebitPaymentItem}
             >
               <Icon
                 name='addLi'
@@ -52,12 +92,6 @@ export const PaymentForm = () => {
               />
               Agregar otro medio de pago
             </Button>
-
-            <ul className='flex flex-col gap-2'>
-              <PaymentItem />
-              <PaymentItem />
-              <PaymentItem />
-            </ul>
           </div>
         </AccordionItem.Content>
       </AccordionItem.Root>
