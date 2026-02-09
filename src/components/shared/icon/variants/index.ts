@@ -21,3 +21,6 @@ export * from './copy-li';
 export * from './dollar-circle-li';
 export * from './yape-li';
 export * from './plin-li';
+export * from './danger-li';
+export * from './forbidden-li';
+export * from './tick-circle-li';

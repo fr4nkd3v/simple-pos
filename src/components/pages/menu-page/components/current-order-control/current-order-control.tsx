@@ -12,7 +12,7 @@ export const CurrentOrderControl = ({
     <Drawer.Root>
       <Drawer.Trigger asChild>
         <button className='w-full'>
-          <CurrentOrderControlPreview className='h-[52px] rounded-xl border border-gray-200 bg-white px-6 shadow-[0_0_20px_0_rgba(0,0,0,.1),_0_10px_20px_0_rgba(0,0,0,.1)]' />
+          <CurrentOrderControlPreview className='shadow-card h-[52px] rounded-xl border border-gray-200 bg-white px-6' />
         </button>
       </Drawer.Trigger>
 

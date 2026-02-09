@@ -22,6 +22,9 @@ import {
   DollarCircleLi,
   YapeLi,
   PlinLi,
+  DangerLi,
+  ForbiddenLi,
+  TickCircleLi,
 } from './variants';
 
 export const iconsMap = {
@@ -48,6 +51,9 @@ export const iconsMap = {
   dollarCircleLi: DollarCircleLi,
   yapeLi: YapeLi,
   plinLi: PlinLi,
+  dangerLi: DangerLi,
+  forbiddenLi: ForbiddenLi,
+  tickCircleLi: TickCircleLi,
 };
 
 export type TIconName = keyof typeof iconsMap;
