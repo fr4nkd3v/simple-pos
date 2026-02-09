@@ -1,3 +1,4 @@
+import { Button, Icon } from '@/components/shared';
 import { getOrderById, getProductPrice } from '@/services';
 import { usePayOrderStore } from '@/stores';
 import type { IOrderItem } from '@/types';
@@ -39,27 +40,52 @@ export const PaymentSummary = () => {
   }, 0);
 
   return (
-    <div className='flex flex-col gap-3 rounded-lg bg-[#F4F4F4] p-4 text-gray-700'>
-      <p className='font-semibold'>Cuenta #{number}</p>
+    <>
+      <div className='flex flex-col gap-3 rounded-lg bg-[#F4F4F4] p-4 text-gray-700'>
+        <p className='font-semibold'>Cuenta #{number}</p>
 
-      <hr className='border-gray-400/50' />
+        <hr className='border-gray-400/50' />
 
-      <ul>
-        {itemsAsObject &&
-          Object.values(itemsAsObject).map((item) => (
-            <PaymentSummaryItem
-              key={item.productId}
-              data={item}
-            />
-          ))}
-      </ul>
+        <ul>
+          {itemsAsObject &&
+            Object.values(itemsAsObject).map((item) => (
+              <PaymentSummaryItem
+                key={item.productId}
+                data={item}
+              />
+            ))}
+        </ul>
 
-      <hr className='border-gray-400/50' />
+        <hr className='border-gray-400/50' />
 
-      <div className='flex items-center justify-between font-semibold'>
-        <span>Total:</span>
-        <span>{formatToPrice(totalPrice)}</span>
+        <div className='flex items-center justify-between font-semibold'>
+          <span>Total:</span>
+          <span>{formatToPrice(totalPrice)}</span>
+        </div>
       </div>
-    </div>
+      <div className='flex gap-2'>
+        <Button
+          className='flex-1'
+          size='lg'
+        >
+          <Icon
+            name='shareLi'
+            className='aspect-square w-5'
+          />
+          Compartir
+        </Button>
+        <Button
+          className='flex-1'
+          variant='outline'
+          size='lg'
+        >
+          <Icon
+            name='copyLi'
+            className='aspect-square w-5'
+          />
+          Copiar
+        </Button>
+      </div>
+    </>
   );
 };

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { EPaymentMethod, type TPaymentItem } from '@/types';
+import { EPaymentMethod, EPaymentType, type TPaymentItem } from '@/types';
 import { getFirstAvailablePaymentMethod } from '@/utils';
 
 export interface IUsePayOrderState {
@@ -21,7 +21,7 @@ export const usePayOrderStore = create<IUsePayOrderState>((set, get) => ({
   id: 'eb54443d-de2b-4c69-9119-43b44574dde0', // TODO: change to null
   paymentItems: [
     {
-      type: 'debit',
+      type: EPaymentType.DEBIT,
       amount: 10, // TODO: Esto debe ser la totalidad de la cuenta
       method: EPaymentMethod.CASH, // TODO: Por default será Cash el primer metodo
     },
@@ -41,7 +41,7 @@ export const usePayOrderStore = create<IUsePayOrderState>((set, get) => ({
     const newItem: TPaymentItem = {
       amount: 0,
       method: nextAvailableMethod,
-      type: 'debit',
+      type: EPaymentType.DEBIT,
     };
     set({ paymentItems: [...paymentItems, newItem] });
   },
@@ -49,7 +49,7 @@ export const usePayOrderStore = create<IUsePayOrderState>((set, get) => ({
     const { paymentItems } = get();
 
     const updatedItems = paymentItems.map((item) => {
-      if (item.type === 'debit' && item.method === method) {
+      if (item.type === EPaymentType.DEBIT && item.method === method) {
         return {
           ...item,
           method: newMethod ?? item.method,

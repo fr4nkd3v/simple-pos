@@ -4,12 +4,13 @@ import { Accordion } from '@/components/shadcn/accordion';
 import { useState } from 'react';
 import { PaymentFormItem } from './payment-form-item';
 import { PaymentFormSingleItem } from './payment-form-single-item';
-import type { TPaymentType } from '@/types';
+import { EPaymentType } from '@/types';
 import { usePayOrderStore } from '@/stores';
 
 export const PaymentForm = () => {
-  const [paymentTypeSelected, setPaymentTypeSelected] =
-    useState<TPaymentType>('debit');
+  const [paymentTypeSelected, setPaymentTypeSelected] = useState<EPaymentType>(
+    EPaymentType.DEBIT,
+  );
 
   const {
     paymentItems,
@@ -23,20 +24,20 @@ export const PaymentForm = () => {
   const firstPaymentMethod = paymentItems[0].method;
 
   const debitPaymentItems = paymentItems.filter(
-    (item) => item.type === 'debit',
+    (item) => item.type === EPaymentType.DEBIT,
   );
   const creditPaymentItems = paymentItems.filter(
-    (item) => item.type === 'credit',
+    (item) => item.type === EPaymentType.CREDIT,
   );
 
   const isDebit = debitPaymentItems.length > 0;
   const isCredit = creditPaymentItems.length > 0;
 
   const handleDebitCheckedChange = (checked: boolean) => {
-    setPaymentTypeSelected(checked ? 'debit' : 'credit');
+    setPaymentTypeSelected(checked ? EPaymentType.DEBIT : EPaymentType.CREDIT);
   };
   const handleCreditCheckedChange = (checked: boolean) => {
-    setPaymentTypeSelected(checked ? 'credit' : 'debit');
+    setPaymentTypeSelected(checked ? EPaymentType.CREDIT : EPaymentType.DEBIT);
   };
 
   return (
@@ -45,11 +46,11 @@ export const PaymentForm = () => {
       className='flex w-full flex-col gap-4'
       value={paymentTypeSelected}
       onValueChange={(value) => {
-        setPaymentTypeSelected(value as TPaymentType);
+        setPaymentTypeSelected(value as EPaymentType);
       }}
     >
       <AccordionItem.Root
-        value='debit'
+        value={EPaymentType.DEBIT}
         checked={isDebit}
       >
         <AccordionItem.Header
@@ -97,7 +98,7 @@ export const PaymentForm = () => {
       </AccordionItem.Root>
 
       <AccordionItem.Root
-        value='credit'
+        value={EPaymentType.CREDIT}
         checked={isCredit}
       >
         <AccordionItem.Header

@@ -5,10 +5,13 @@ export enum EPaymentMethod {
   OTHER = 'other',
 }
 
-export type TPaymentType = 'debit' | 'credit';
+export enum EPaymentType {
+  DEBIT = 'debit',
+  CREDIT = 'credit',
+}
 
 export type TPaymentItem = {
   amount: number;
   method: EPaymentMethod;
-  type: TPaymentType;
+  type: EPaymentType;
 };
