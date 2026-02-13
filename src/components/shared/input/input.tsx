@@ -8,7 +8,7 @@ function Input({
   size = 'default',
   ...props
 }: Omit<React.ComponentProps<'input'>, 'size'> & {
-  // type?: React.ComponentProps<'input'>['type'];
+  type?: React.ComponentProps<'input'>['type'];
   size?: 'sm' | 'lg' | 'default';
 }) {
   return (
