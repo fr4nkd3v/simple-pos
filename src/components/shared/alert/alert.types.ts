@@ -7,6 +7,16 @@ export interface IAlertProps {
   message: string;
 }
 
+export interface IAlertRootProps {
+  type: AlertType;
+  children: React.ReactNode;
+}
+
+export interface IAlertMessageProps {
+  message: string;
+  children?: React.ReactNode;
+}
+
 export const alertStyles = {
   success: {
     container: 'bg-lime-50 border-lime-500',
@@ -17,7 +27,7 @@ export const alertStyles = {
     icon: 'text-amber-400',
   },
   error: {
-    container: 'bg-red-50 border-red-200',
+    container: 'bg-red-50 border-red-600',
     icon: 'text-red-600',
   },
 };
