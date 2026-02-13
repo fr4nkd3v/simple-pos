@@ -25,6 +25,9 @@ import {
   DangerLi,
   ForbiddenLi,
   TickCircleLi,
+  CloseSquareLi,
+  TickSquareBo,
+  InfoSquareBo,
 } from './variants';
 
 export const iconsMap = {
@@ -54,6 +57,9 @@ export const iconsMap = {
   dangerLi: DangerLi,
   forbiddenLi: ForbiddenLi,
   tickCircleLi: TickCircleLi,
+  closeSquareLi: CloseSquareLi,
+  tickSquareBo: TickSquareBo,
+  infoSquareBo: InfoSquareBo,
 };
 
 export type TIconName = keyof typeof iconsMap;

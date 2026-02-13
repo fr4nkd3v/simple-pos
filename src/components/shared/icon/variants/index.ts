@@ -24,3 +24,6 @@ export * from './plin-li';
 export * from './danger-li';
 export * from './forbidden-li';
 export * from './tick-circle-li';
+export * from './close-square-li';
+export * from './tick-square-bo';
+export * from './info-square-bo';

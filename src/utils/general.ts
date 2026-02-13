@@ -1,4 +1,10 @@
-import { EPaymentMethod, type TPaymentItem } from '@/types';
+import { getProductPrice } from '@/services';
+import {
+  EPaymentMethod,
+  type IOrderItem,
+  type IOrderRound,
+  type TPaymentItem,
+} from '@/types';
 
 export const formatNumberToPrice = (price: number): string => {
   return 'S/ ' + price.toFixed(2);
@@ -118,4 +124,34 @@ export const getAvailablePaymentMethods = (
   if (!hasOther) availableMethods.push(EPaymentMethod.OTHER);
 
   return availableMethods;
+};
+
+export const getPlainOrderItems = (rounds: IOrderRound[]): IOrderItem[] => {
+  const plainItems = rounds.reduce((acc: IOrderItem[], round) => {
+    return [...acc, ...round.items];
+  }, []);
+
+  const itemsAsObject = plainItems.reduce(
+    (acc: Record<string, IOrderItem>, item) => {
+      if (acc[item.productId]) {
+        acc[item.productId].quantity += item.quantity;
+      } else {
+        acc[item.productId] = { ...item };
+      }
+      return acc;
+    },
+    {},
+  );
+
+  const allItems = Object.values(itemsAsObject);
+
+  return allItems;
+};
+
+export const getOrderTotalPrice = (items: IOrderItem[]) => {
+  const totalPrice = items.reduce((sum, item) => {
+    return sum + item.quantity * getProductPrice(item.productId);
+  }, 0);
+
+  return totalPrice;
 };
