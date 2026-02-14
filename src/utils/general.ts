@@ -1,6 +1,7 @@
-import { getProductPrice } from '@/services';
+import { getProductDetail, getProductPrice } from '@/services';
 import {
   EPaymentMethod,
+  type IDetailedOrderRound,
   type IOrderItem,
   type IOrderRound,
   type TPaymentItem,
@@ -154,4 +155,22 @@ export const getOrderTotalPrice = (items: IOrderItem[]) => {
   }, 0);
 
   return totalPrice;
+};
+
+export const getDetailedRounds = (
+  rounds: IOrderRound[],
+): IDetailedOrderRound[] => {
+  return rounds.map((round) => {
+    return {
+      number: round.number,
+      items: round.items
+        .map((item) => {
+          const product = getProductDetail(item.productId);
+          if (!product) return null;
+
+          return { ...product, quantity: item.quantity };
+        })
+        .filter((item) => item !== null),
+    };
+  });
 };

@@ -1,5 +1,4 @@
-import { Input } from '@/components/shadcn/input';
-import { Button, Icon, Select } from '@/components/shared';
+import { Button, Icon, Select, Input } from '@/components/shared';
 import { PAYMENT_METHODS } from '@/constants';
 import { usePayOrderStore } from '@/stores';
 import type { EPaymentMethod } from '@/types';

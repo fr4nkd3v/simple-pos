@@ -1,28 +1,15 @@
 import { Icon } from '@/components/shared';
 import { Fragment } from 'react/jsx-runtime';
 import { useOrderContext } from './order-item.context';
-import { getProductDetail } from '@/services';
 import { useMemo } from 'react';
 import type { IDetailedOrderRound } from '@/types';
-import { formatToPrice } from '@/utils';
+import { formatToPrice, getDetailedRounds } from '@/utils';
 
 export const OrderItemBody = () => {
   const { order, isExpanded } = useOrderContext();
 
   const detailedRounds: IDetailedOrderRound[] = useMemo(() => {
-    return order.rounds.map((round) => {
-      return {
-        number: round.number,
-        items: round.items
-          .map((item) => {
-            const product = getProductDetail(item.productId);
-            if (!product) return null;
-
-            return { ...product, quantity: item.quantity };
-          })
-          .filter((item) => item !== null),
-      };
-    });
+    return getDetailedRounds(order.rounds);
   }, [order.rounds]);
 
   const compactRoundList = detailedRounds.map((round) => (
