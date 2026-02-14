@@ -1,12 +1,14 @@
 import { Button, Icon } from '@/components/shared';
 import { useOrderContext } from './order-item.context';
-import { useCurrentOrderStore, usePageStore } from '@/stores';
+import { useCurrentOrderStore, usePageStore, usePayOrderStore } from '@/stores';
 import { EPage } from '@/types';
+import { getPlainOrderItems, getOrderTotalPrice } from '@/utils';
 
 export const OrderItemFooter = () => {
   const { order } = useOrderContext();
   const { setExistingOrderAndNewRound } = useCurrentOrderStore();
   const { setPage } = usePageStore();
+  const { setOrderAndDebitPayment } = usePayOrderStore();
 
   const handleEdit = () => {
     const { id, number, items, rounds } = order;
@@ -16,8 +18,12 @@ export const OrderItemFooter = () => {
   };
 
   const handlePay = () => {
-    // const { id, number, items, rounds } = order;
+    const { id: orderId, rounds } = order;
 
+    const plainOrderItems = getPlainOrderItems(rounds);
+    const orderTotalPrice = getOrderTotalPrice(plainOrderItems);
+
+    setOrderAndDebitPayment(orderId, orderTotalPrice);
     setPage(EPage.PAYMENT_PAGE);
   };
 

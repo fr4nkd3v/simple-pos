@@ -6,7 +6,8 @@ export interface IUsePayOrderState {
   id: string | null;
   paymentItems: TPaymentItem[];
   setOrderToPay: (orderId: string) => void;
-  addDebitPaymentItem: () => void;
+  setOrderAndDebitPayment: (orderId: string, amount: number) => void;
+  addDebitPaymentItem: (amount: number) => void;
   updateDebitPaymentItem: (
     method: EPaymentMethod,
     amount: number,
@@ -18,28 +19,28 @@ export interface IUsePayOrderState {
 }
 
 export const usePayOrderStore = create<IUsePayOrderState>((set, get) => ({
-  id: 'eb54443d-de2b-4c69-9119-43b44574dde0', // TODO: change to null
-  paymentItems: [
-    {
-      type: EPaymentType.DEBIT,
-      amount: 10, // TODO: Esto debe ser la totalidad de la cuenta
-      method: EPaymentMethod.CASH, // TODO: Por default será Cash el primer metodo
-    },
-  ],
+  id: null,
+  paymentItems: [],
   setOrderToPay: (orderId) => {
     set({ id: orderId });
   },
-  addDebitPaymentItem: () => {
+  setOrderAndDebitPayment: (orderId, amount) => {
+    const firstPaymentItem: TPaymentItem = {
+      type: EPaymentType.DEBIT,
+      amount,
+      method: EPaymentMethod.CASH,
+    };
+
+    set({ id: orderId, paymentItems: [firstPaymentItem] });
+  },
+  addDebitPaymentItem: (amount) => {
     const { paymentItems } = get();
-    console.log('paymentItems:', JSON.stringify(paymentItems, null, 2));
 
     const nextAvailableMethod = getFirstAvailablePaymentMethod(paymentItems);
     if (!nextAvailableMethod) return;
 
-    console.log('nextAvailableMethod:', nextAvailableMethod);
-
     const newItem: TPaymentItem = {
-      amount: 0,
+      amount,
       method: nextAvailableMethod,
       type: EPaymentType.DEBIT,
     };

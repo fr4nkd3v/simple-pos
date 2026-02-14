@@ -3,7 +3,7 @@ import type { IUsePageState } from './use-page-store.types';
 import { EPage } from '@/types';
 
 export const usePageStore = create<IUsePageState>((set) => ({
-  selectedPage: EPage.PAYMENT_PAGE,
+  selectedPage: EPage.ORDERS_PAGE,
   setPage: (page) => {
     set({ selectedPage: page });
   },

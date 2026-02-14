@@ -21,14 +21,15 @@ export const PaymentForm = () => {
   } = usePayOrderStore();
   if (!paymentItems.length) return null;
 
-  const firstPaymentMethod = paymentItems[0].method;
-
   const debitPaymentItems = paymentItems.filter(
     (item) => item.type === EPaymentType.DEBIT,
   );
   const creditPaymentItems = paymentItems.filter(
     (item) => item.type === EPaymentType.CREDIT,
   );
+
+  const hasOnlyOneDebitPaymentItem = debitPaymentItems.length === 1;
+  const firstDebitPaymentMethod = debitPaymentItems[0].method;
 
   const isDebit = debitPaymentItems.length > 0;
   const isCredit = creditPaymentItems.length > 0;
@@ -38,6 +39,13 @@ export const PaymentForm = () => {
   };
   const handleCreditCheckedChange = (checked: boolean) => {
     setPaymentTypeSelected(checked ? EPaymentType.CREDIT : EPaymentType.DEBIT);
+  };
+
+  const handleAddDebitPaymentItem = () => {
+    if (hasOnlyOneDebitPaymentItem) {
+      updateDebitPaymentItem(debitPaymentItems[0].method, 0);
+    }
+    addDebitPaymentItem(0);
   };
 
   return (
@@ -60,10 +68,10 @@ export const PaymentForm = () => {
         />
         <AccordionItem.Content>
           <div className='flex flex-col gap-7'>
-            {isDebit && debitPaymentItems.length === 1 ? (
+            {isDebit && hasOnlyOneDebitPaymentItem ? (
               <PaymentFormSingleItem
                 onValueChange={changeUniquePaymentItemMethod}
-                defaultValue={firstPaymentMethod}
+                defaultValue={firstDebitPaymentMethod}
               />
             ) : (
               <ul className='flex flex-col gap-2'>
@@ -85,7 +93,7 @@ export const PaymentForm = () => {
             <Button
               variant='outline'
               size='lg'
-              onClick={addDebitPaymentItem}
+              onClick={handleAddDebitPaymentItem}
             >
               <Icon
                 name='addLi'
