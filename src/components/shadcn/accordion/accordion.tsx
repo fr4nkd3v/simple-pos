@@ -6,7 +6,7 @@ import { ChevronDownIcon } from 'lucide-react';
 
 import { classNames } from '@/utils';
 
-function Accordion({
+function AccordionGroup({
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Root>) {
   return (
@@ -74,4 +74,4 @@ function AccordionContent({
   );
 }
 
-export { Accordion, AccordionItem, AccordionTrigger, AccordionContent };
+export { AccordionGroup, AccordionItem, AccordionTrigger, AccordionContent };

@@ -1,6 +1,6 @@
-import { Button, Icon } from '@/components/shared';
+import { Button, Icon, Input } from '@/components/shared';
 import { AccordionItem } from '../accordion-item';
-import { Accordion } from '@/components/shadcn/accordion';
+import { AccordionGroup } from '@/components/shadcn/accordion';
 import { useState } from 'react';
 import { PaymentFormItem } from './payment-form-item';
 import { PaymentFormSingleItem } from './payment-form-single-item';
@@ -8,9 +8,12 @@ import { EPaymentType } from '@/types';
 import { usePayOrderStore } from '@/stores';
 
 export const PaymentForm = () => {
-  const [paymentTypeSelected, setPaymentTypeSelected] = useState<EPaymentType>(
+  const [isDebitSelected, setIsDebitSelected] = useState(true);
+  const [isCreditSelected, setIsCreditSelected] = useState(false);
+
+  const [openedAccordions, setOpenedAccordions] = useState<EPaymentType[]>([
     EPaymentType.DEBIT,
-  );
+  ]);
 
   const {
     paymentItems,
@@ -18,27 +21,51 @@ export const PaymentForm = () => {
     changeUniquePaymentItemMethod,
     updateDebitPaymentItem,
     deleteDebitPaymentItem,
+    saveCreditPaymentItem,
   } = usePayOrderStore();
   if (!paymentItems.length) return null;
 
   const debitPaymentItems = paymentItems.filter(
     (item) => item.type === EPaymentType.DEBIT,
   );
-  const creditPaymentItems = paymentItems.filter(
+  const creditPaymentItem = paymentItems.filter(
     (item) => item.type === EPaymentType.CREDIT,
-  );
+  )[0];
 
   const hasOnlyOneDebitPaymentItem = debitPaymentItems.length === 1;
   const firstDebitPaymentMethod = debitPaymentItems[0].method;
 
-  const isDebit = debitPaymentItems.length > 0;
-  const isCredit = creditPaymentItems.length > 0;
-
   const handleDebitCheckedChange = (checked: boolean) => {
-    setPaymentTypeSelected(checked ? EPaymentType.DEBIT : EPaymentType.CREDIT);
+    if (!checked) {
+      setOpenedAccordions((previous) =>
+        previous.filter((value) => value !== EPaymentType.DEBIT),
+      );
+    }
+
+    if (checked) {
+      if (!openedAccordions.includes(EPaymentType.DEBIT)) {
+        setOpenedAccordions((previous) => [...previous, EPaymentType.DEBIT]);
+      }
+    }
+    setIsDebitSelected(checked);
   };
+
   const handleCreditCheckedChange = (checked: boolean) => {
-    setPaymentTypeSelected(checked ? EPaymentType.CREDIT : EPaymentType.DEBIT);
+    if (!checked) {
+      setOpenedAccordions((previous) =>
+        previous.filter((value) => value !== EPaymentType.CREDIT),
+      );
+    }
+
+    if (checked) {
+      if (!openedAccordions.includes(EPaymentType.CREDIT)) {
+        setOpenedAccordions((previous) => [...previous, EPaymentType.CREDIT]);
+      }
+
+      saveCreditPaymentItem(0);
+    }
+
+    setIsCreditSelected(checked);
   };
 
   const handleAddDebitPaymentItem = () => {
@@ -49,26 +76,34 @@ export const PaymentForm = () => {
   };
 
   return (
-    <Accordion
-      type='single'
+    <AccordionGroup
+      type='multiple'
       className='flex w-full flex-col gap-4'
-      value={paymentTypeSelected}
-      onValueChange={(value) => {
-        setPaymentTypeSelected(value as EPaymentType);
+      value={openedAccordions}
+      onValueChange={(accordionValues) => {
+        const valuesFirstFiltered = !isCreditSelected
+          ? accordionValues.filter((value) => value !== EPaymentType.CREDIT)
+          : accordionValues;
+
+        const valuesSecondFiltered = !isDebitSelected
+          ? valuesFirstFiltered.filter((value) => value !== EPaymentType.DEBIT)
+          : valuesFirstFiltered;
+
+        setOpenedAccordions(valuesSecondFiltered as EPaymentType[]);
       }}
     >
       <AccordionItem.Root
         value={EPaymentType.DEBIT}
-        checked={isDebit}
+        checked={isDebitSelected}
       >
         <AccordionItem.Header
-          checked={isDebit}
+          checked={isDebitSelected}
           onCheckedChange={handleDebitCheckedChange}
           title='Paga con:'
         />
         <AccordionItem.Content>
           <div className='flex flex-col gap-7'>
-            {isDebit && hasOnlyOneDebitPaymentItem ? (
+            {hasOnlyOneDebitPaymentItem ? (
               <PaymentFormSingleItem
                 onValueChange={changeUniquePaymentItemMethod}
                 defaultValue={firstDebitPaymentMethod}
@@ -107,17 +142,31 @@ export const PaymentForm = () => {
 
       <AccordionItem.Root
         value={EPaymentType.CREDIT}
-        checked={isCredit}
+        checked={isCreditSelected}
       >
         <AccordionItem.Header
-          checked={isCredit}
-          onCheckedChange={handleCreditCheckedChange}
+          checked={isCreditSelected}
           title='Credito de:'
+          onCheckedChange={handleCreditCheckedChange}
         />
         <AccordionItem.Content>
-          <p>Contenido de acordeon de credito</p>
+          <div className='flex items-center gap-2'>
+            <Input
+              type='number'
+              placeholder='0.00'
+              size='lg'
+              value={creditPaymentItem?.amount}
+              onInput={(event) => {
+                saveCreditPaymentItem(
+                  Number((event.target as HTMLInputElement).value),
+                );
+              }}
+            />
+
+            <Button size='md'>Cubrir restante</Button>
+          </div>
         </AccordionItem.Content>
       </AccordionItem.Root>
-    </Accordion>
+    </AccordionGroup>
   );
 };

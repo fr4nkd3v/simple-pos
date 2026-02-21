@@ -1,8 +1,8 @@
 import { Button, Icon, Select, Input } from '@/components/shared';
-import { PAYMENT_METHODS } from '@/constants';
+import { DEBIT_PAYMENT_METHODS } from '@/constants';
 import { usePayOrderStore } from '@/stores';
 import type { EPaymentMethod } from '@/types';
-import { getAvailablePaymentMethods } from '@/utils';
+import { getAvailableDebitPaymentMethods } from '@/utils';
 import type { PaymentFormItemProps } from './payment-form.types';
 
 export const PaymentFormItem = ({
@@ -14,10 +14,21 @@ export const PaymentFormItem = ({
 }: PaymentFormItemProps) => {
   const { paymentItems, updateDebitPaymentItem } = usePayOrderStore();
 
-  const availablePaymentMethods = [
+  const availableDebitPaymentMethods = [
     method,
-    ...getAvailablePaymentMethods(paymentItems),
+    ...getAvailableDebitPaymentMethods(paymentItems),
   ];
+
+  const filteredAvailableDebitPaymentMethods = availableDebitPaymentMethods
+    .map((availableMethod) =>
+      DEBIT_PAYMENT_METHODS[availableMethod]
+        ? {
+            label: DEBIT_PAYMENT_METHODS[availableMethod],
+            value: availableMethod,
+          }
+        : null,
+    )
+    .filter((availableMethod) => availableMethod !== null);
 
   return (
     <li className='flex gap-2'>
@@ -41,13 +52,12 @@ export const PaymentFormItem = ({
           updateDebitPaymentItem(method, amount, newMethod as EPaymentMethod)
         }
       >
-        {availablePaymentMethods.map((availableMethod) => {
-          const label = PAYMENT_METHODS[availableMethod];
+        {filteredAvailableDebitPaymentMethods.map((availableMethod) => {
           return (
             <Select.Item
-              key={availableMethod}
-              label={label}
-              value={availableMethod}
+              key={availableMethod.value}
+              label={availableMethod.label}
+              value={availableMethod.value}
             />
           );
         })}

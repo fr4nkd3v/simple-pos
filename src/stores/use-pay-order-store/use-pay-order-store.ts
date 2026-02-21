@@ -1,7 +1,9 @@
 import { create } from 'zustand';
 import { EPaymentMethod, EPaymentType, type TPaymentItem } from '@/types';
-import { getFirstAvailablePaymentMethod } from '@/utils';
+import { getFirstAvailableDebitPaymentMethod } from '@/utils';
 
+// TODO: Refactor this store to be more generic, not only for orders but also for other payment contexts (e.g., cash register).
+// TODO: validate if all methods are been used, if any one is no used so remove
 export interface IUsePayOrderState {
   id: string | null;
   paymentItems: TPaymentItem[];
@@ -15,6 +17,7 @@ export interface IUsePayOrderState {
   ) => void;
   deleteDebitPaymentItem: (method: EPaymentMethod) => void;
   changeUniquePaymentItemMethod: (method: EPaymentMethod) => void;
+  saveCreditPaymentItem: (amount: number) => void;
   clearAll: () => void;
 }
 
@@ -36,7 +39,8 @@ export const usePayOrderStore = create<IUsePayOrderState>((set, get) => ({
   addDebitPaymentItem: (amount) => {
     const { paymentItems } = get();
 
-    const nextAvailableMethod = getFirstAvailablePaymentMethod(paymentItems);
+    const nextAvailableMethod =
+      getFirstAvailableDebitPaymentMethod(paymentItems);
     if (!nextAvailableMethod) return;
 
     const newItem: TPaymentItem = {
@@ -79,6 +83,38 @@ export const usePayOrderStore = create<IUsePayOrderState>((set, get) => ({
     };
 
     set({ paymentItems: [modifiedFirstItem, ...restItems] });
+  },
+  saveCreditPaymentItem: (amount) => {
+    const { paymentItems } = get();
+    const hasCreditPaymentItem = paymentItems.some(
+      (item) =>
+        item.type === EPaymentType.CREDIT &&
+        item.method === EPaymentMethod.CREDIT,
+    );
+
+    const firstCreditItem: TPaymentItem = {
+      amount,
+      method: EPaymentMethod.CREDIT,
+      type: EPaymentType.CREDIT,
+    };
+
+    const updatedItems = hasCreditPaymentItem
+      ? paymentItems.map((item) => {
+          if (
+            item.type === EPaymentType.CREDIT &&
+            item.method === EPaymentMethod.CREDIT
+          ) {
+            return {
+              ...item,
+              amount,
+            };
+          }
+
+          return item;
+        })
+      : [...paymentItems, firstCreditItem];
+
+    set({ paymentItems: updatedItems });
   },
   clearAll: () => {
     set({ paymentItems: [], id: null });

@@ -3,6 +3,7 @@ export enum EPaymentMethod {
   YAPE = 'yape',
   PLIN = 'plin',
   OTHER = 'other',
+  CREDIT = 'credit',
 }
 
 export enum EPaymentType {

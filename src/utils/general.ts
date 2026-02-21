@@ -67,7 +67,7 @@ export const formattedDate = (date: Date) => {
   }).format(date);
 };
 
-export const getFirstAvailablePaymentMethod = (
+export const getFirstAvailableDebitPaymentMethod = (
   paymentItems: TPaymentItem[],
 ): EPaymentMethod | null => {
   if (paymentItems.length <= 0) {
@@ -101,7 +101,7 @@ export const getFirstAvailablePaymentMethod = (
   return null;
 };
 
-export const getAvailablePaymentMethods = (
+export const getAvailableDebitPaymentMethods = (
   paymentItems: TPaymentItem[],
 ): EPaymentMethod[] => {
   const availableMethods = [] as EPaymentMethod[];
