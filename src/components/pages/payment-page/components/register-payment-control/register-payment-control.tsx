@@ -19,17 +19,17 @@ export const RegisterPaymentControl = () => {
   const orderTotalPrice = getOrderTotalPrice(plainOrderItems);
 
   const sumPaymentItems = paymentItems.reduce(
-    (sum, item) => sum + item.amount,
+    (sum, item) => sum + (item.enabled ? item.amount : 0),
     0,
   );
 
   const isAllCovered = sumPaymentItems === orderTotalPrice;
 
   const debitPaymentItems = paymentItems.filter(
-    (item) => item.type === EPaymentType.DEBIT,
+    (item) => item.type === EPaymentType.DEBIT && item.enabled,
   );
   const creditPaymentItems = paymentItems.filter(
-    (item) => item.type === EPaymentType.CREDIT,
+    (item) => item.type === EPaymentType.CREDIT && item.enabled,
   );
 
   return (
@@ -54,9 +54,7 @@ export const RegisterPaymentControl = () => {
               />
               <p>
                 Paga{' '}
-                <span className='font-bold'>
-                  S/ {formatToPrice(item.amount)}
-                </span>{' '}
+                <span className='font-bold'>{formatToPrice(item.amount)}</span>{' '}
                 con <span className='font-bold'>{item.method}</span>
               </p>
             </Alert.ListItem>
@@ -70,9 +68,7 @@ export const RegisterPaymentControl = () => {
               />
               <p>
                 <span className='font-bold'>Credito</span> de{' '}
-                <span className='font-bold'>
-                  S/ {formatToPrice(item.amount)}
-                </span>
+                <span className='font-bold'>{formatToPrice(item.amount)}</span>
               </p>
             </Alert.ListItem>
           ))}
@@ -86,7 +82,7 @@ export const RegisterPaymentControl = () => {
               <p>
                 Falta cubrir{' '}
                 <span className='font-bold'>
-                  S/ {formatToPrice(orderTotalPrice - sumPaymentItems)}
+                  {formatToPrice(orderTotalPrice - sumPaymentItems)}
                 </span>
               </p>
             </Alert.ListItem>

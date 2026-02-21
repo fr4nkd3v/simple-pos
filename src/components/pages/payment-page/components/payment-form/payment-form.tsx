@@ -22,6 +22,10 @@ export const PaymentForm = () => {
     updateDebitPaymentItem,
     deleteDebitPaymentItem,
     saveCreditPaymentItem,
+    disableDebitPayments,
+    enableDebitPayments,
+    disableCreditPayment,
+    enableCreditPayment,
   } = usePayOrderStore();
   if (!paymentItems.length) return null;
 
@@ -37,12 +41,14 @@ export const PaymentForm = () => {
 
   const handleDebitCheckedChange = (checked: boolean) => {
     if (!checked) {
+      disableDebitPayments();
       setOpenedAccordions((previous) =>
         previous.filter((value) => value !== EPaymentType.DEBIT),
       );
     }
 
     if (checked) {
+      enableDebitPayments();
       if (!openedAccordions.includes(EPaymentType.DEBIT)) {
         setOpenedAccordions((previous) => [...previous, EPaymentType.DEBIT]);
       }
@@ -52,6 +58,7 @@ export const PaymentForm = () => {
 
   const handleCreditCheckedChange = (checked: boolean) => {
     if (!checked) {
+      disableCreditPayment();
       setOpenedAccordions((previous) =>
         previous.filter((value) => value !== EPaymentType.CREDIT),
       );
@@ -63,6 +70,7 @@ export const PaymentForm = () => {
       }
 
       saveCreditPaymentItem(0);
+      enableCreditPayment();
     }
 
     setIsCreditSelected(checked);

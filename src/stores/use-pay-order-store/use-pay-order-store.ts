@@ -19,6 +19,10 @@ export interface IUsePayOrderState {
   changeUniquePaymentItemMethod: (method: EPaymentMethod) => void;
   saveCreditPaymentItem: (amount: number) => void;
   clearAll: () => void;
+  disableDebitPayments: () => void;
+  enableDebitPayments: () => void;
+  disableCreditPayment: () => void;
+  enableCreditPayment: () => void;
 }
 
 export const usePayOrderStore = create<IUsePayOrderState>((set, get) => ({
@@ -32,6 +36,7 @@ export const usePayOrderStore = create<IUsePayOrderState>((set, get) => ({
       type: EPaymentType.DEBIT,
       amount,
       method: EPaymentMethod.CASH,
+      enabled: true,
     };
 
     set({ id: orderId, paymentItems: [firstPaymentItem] });
@@ -47,6 +52,7 @@ export const usePayOrderStore = create<IUsePayOrderState>((set, get) => ({
       amount,
       method: nextAvailableMethod,
       type: EPaymentType.DEBIT,
+      enabled: true,
     };
     set({ paymentItems: [...paymentItems, newItem] });
   },
@@ -96,6 +102,7 @@ export const usePayOrderStore = create<IUsePayOrderState>((set, get) => ({
       amount,
       method: EPaymentMethod.CREDIT,
       type: EPaymentType.CREDIT,
+      enabled: true,
     };
 
     const updatedItems = hasCreditPaymentItem
@@ -118,5 +125,45 @@ export const usePayOrderStore = create<IUsePayOrderState>((set, get) => ({
   },
   clearAll: () => {
     set({ paymentItems: [], id: null });
+  },
+  disableDebitPayments: () => {
+    const { paymentItems } = get();
+    const updatedItems = paymentItems.map((item) => {
+      if (item.type === EPaymentType.DEBIT) {
+        return { ...item, enabled: false };
+      }
+      return item;
+    });
+    set({ paymentItems: updatedItems });
+  },
+  enableDebitPayments: () => {
+    const { paymentItems } = get();
+    const updatedItems = paymentItems.map((item) => {
+      if (item.type === EPaymentType.DEBIT) {
+        return { ...item, enabled: true };
+      }
+      return item;
+    });
+    set({ paymentItems: updatedItems });
+  },
+  disableCreditPayment: () => {
+    const { paymentItems } = get();
+    const updatedItems = paymentItems.map((item) => {
+      if (item.type === EPaymentType.CREDIT) {
+        return { ...item, enabled: false };
+      }
+      return item;
+    });
+    set({ paymentItems: updatedItems });
+  },
+  enableCreditPayment: () => {
+    const { paymentItems } = get();
+    const updatedItems = paymentItems.map((item) => {
+      if (item.type === EPaymentType.CREDIT) {
+        return { ...item, enabled: true };
+      }
+      return item;
+    });
+    set({ paymentItems: updatedItems });
   },
 }));

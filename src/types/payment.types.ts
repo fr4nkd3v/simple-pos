@@ -15,4 +15,5 @@ export type TPaymentItem = {
   amount: number;
   method: EPaymentMethod;
   type: EPaymentType;
+  enabled: boolean;
 };
