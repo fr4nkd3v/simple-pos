@@ -4,7 +4,7 @@ import {
   type IDetailedOrderRound,
   type IOrderItem,
   type IOrderRound,
-  type TPaymentItem,
+  type IPaymentItemFull,
 } from '@/types';
 
 export const formatNumberToPrice = (price: number): string => {
@@ -68,7 +68,7 @@ export const formattedDate = (date: Date) => {
 };
 
 export const getFirstAvailableDebitPaymentMethod = (
-  paymentItems: TPaymentItem[],
+  paymentItems: IPaymentItemFull[],
 ): EPaymentMethod | null => {
   if (paymentItems.length <= 0) {
     return EPaymentMethod.CASH;
@@ -102,7 +102,7 @@ export const getFirstAvailableDebitPaymentMethod = (
 };
 
 export const getAvailableDebitPaymentMethods = (
-  paymentItems: TPaymentItem[],
+  paymentItems: IPaymentItemFull[],
 ): EPaymentMethod[] => {
   const availableMethods = [] as EPaymentMethod[];
 

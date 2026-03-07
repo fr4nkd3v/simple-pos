@@ -3,7 +3,10 @@ import { getOrders } from '@/services';
 import { OrderItem } from './components';
 
 export const OrdersPage = () => {
-  const orders = getOrders('desc');
+  const orders = getOrders({
+    sort: 'desc',
+    scope: 'pending',
+  });
   const pageTitle = `Cuentas (${orders.length})`;
 
   return (

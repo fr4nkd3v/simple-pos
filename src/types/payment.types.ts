@@ -11,9 +11,12 @@ export enum EPaymentType {
   CREDIT = 'credit',
 }
 
-export type TPaymentItem = {
+export interface IPaymentItem {
   amount: number;
   method: EPaymentMethod;
   type: EPaymentType;
+}
+
+export interface IPaymentItemFull extends IPaymentItem {
   enabled: boolean;
-};
+}

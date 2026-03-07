@@ -1,14 +1,22 @@
 import { Alert, Button, Icon } from '@/components/shared';
-import { getOrderById } from '@/services';
-import { usePayOrderStore } from '@/stores';
-import { EPaymentType } from '@/types';
+import { getOrderById, payOrder } from '@/services';
+import { usePageStore, usePayOrderStore } from '@/stores';
+import { EPage, EPaymentType } from '@/types';
 import { formatToPrice, getOrderTotalPrice, getPlainOrderItems } from '@/utils';
+import { toast } from 'sonner';
 
 export const RegisterPaymentControl = () => {
-  const { paymentItems, id } = usePayOrderStore();
-  if (!id) return null;
+  const {
+    paymentItems,
+    id: idToPay,
+    clearAll: clearOrderToPay,
+  } = usePayOrderStore();
 
-  const foundOrder = getOrderById(id);
+  const { setPage } = usePageStore();
+
+  if (!idToPay) return null;
+
+  const foundOrder = getOrderById(idToPay);
   if (!foundOrder) {
     console.error('Order not found in local storage');
     return null;
@@ -32,6 +40,23 @@ export const RegisterPaymentControl = () => {
     (item) => item.type === EPaymentType.CREDIT && item.enabled,
   );
 
+  const handleRegisterPay = () => {
+    payOrder(
+      idToPay,
+      paymentItems.map((item) => ({
+        method: item.method,
+        type: item.type,
+        amount: item.amount,
+      })),
+    );
+
+    clearOrderToPay();
+
+    setPage(EPage.MENU_PAGE);
+
+    toast('Pago registrado correctamente');
+  };
+
   return (
     <div className='flex w-full flex-col gap-3 rounded-t-xl border border-gray-200 bg-white px-5 py-6 shadow-card'>
       <Alert.Root type={isAllCovered ? 'success' : 'error'}>
@@ -39,7 +64,7 @@ export const RegisterPaymentControl = () => {
           message={
             isAllCovered
               ? 'Cuenta totalmente cubierta:'
-              : 'La cuenta no está totalmente cubierta:'
+              : `La cuenta de ${formatToPrice(orderTotalPrice)} no está totalmente cubierta:`
           }
         >
           <Alert.Icon />
@@ -90,7 +115,11 @@ export const RegisterPaymentControl = () => {
         </Alert.List>
       </Alert.Root>
 
-      <Button size='lg'>
+      <Button
+        size='lg'
+        disabled={!isAllCovered}
+        onClick={handleRegisterPay}
+      >
         <Icon
           name='walletMoneyLi'
           className='aspect-square w-5'

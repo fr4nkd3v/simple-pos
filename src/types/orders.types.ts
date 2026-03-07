@@ -1,3 +1,4 @@
+import type { IPaymentItem } from './payment.types';
 import type { IProduct } from './products.types';
 
 export interface IOrderItem {
@@ -19,6 +20,7 @@ export interface IOrder {
   // TODO: Rounds is part of new structure, make it mandatory later and remove items
   items: IOrderItem[];
   rounds: IOrderRound[];
+  paymentItems?: IPaymentItem[];
 }
 
 export type TDetailedOrderItem = Omit<IOrderItem, 'productId'> & IProduct;

@@ -1,12 +1,12 @@
 import { create } from 'zustand';
-import { EPaymentMethod, EPaymentType, type TPaymentItem } from '@/types';
+import { EPaymentMethod, EPaymentType, type IPaymentItemFull } from '@/types';
 import { getFirstAvailableDebitPaymentMethod } from '@/utils';
 
 // TODO: Refactor this store to be more generic, not only for orders but also for other payment contexts (e.g., cash register).
 // TODO: validate if all methods are been used, if any one is no used so remove
 export interface IUsePayOrderState {
   id: string | null;
-  paymentItems: TPaymentItem[];
+  paymentItems: IPaymentItemFull[];
   setOrderToPay: (orderId: string) => void;
   setOrderAndDebitPayment: (orderId: string, amount: number) => void;
   addDebitPaymentItem: (amount: number) => void;
@@ -32,7 +32,7 @@ export const usePayOrderStore = create<IUsePayOrderState>((set, get) => ({
     set({ id: orderId });
   },
   setOrderAndDebitPayment: (orderId, amount) => {
-    const firstPaymentItem: TPaymentItem = {
+    const firstPaymentItem: IPaymentItemFull = {
       type: EPaymentType.DEBIT,
       amount,
       method: EPaymentMethod.CASH,
@@ -48,7 +48,7 @@ export const usePayOrderStore = create<IUsePayOrderState>((set, get) => ({
       getFirstAvailableDebitPaymentMethod(paymentItems);
     if (!nextAvailableMethod) return;
 
-    const newItem: TPaymentItem = {
+    const newItem: IPaymentItemFull = {
       amount,
       method: nextAvailableMethod,
       type: EPaymentType.DEBIT,
@@ -98,7 +98,7 @@ export const usePayOrderStore = create<IUsePayOrderState>((set, get) => ({
         item.method === EPaymentMethod.CREDIT,
     );
 
-    const firstCreditItem: TPaymentItem = {
+    const firstCreditItem: IPaymentItemFull = {
       amount,
       method: EPaymentMethod.CREDIT,
       type: EPaymentType.CREDIT,

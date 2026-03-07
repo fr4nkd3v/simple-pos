@@ -30,6 +30,8 @@ export const PaymentPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // TODO: If no there an order to pay, show a message and a button to go back to home page
+
   return (
     <div
       className='flex flex-col gap-5 p-5'

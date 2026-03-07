@@ -1,9 +1,15 @@
-import type { IOrder } from '@/types';
+import type { IOrder, IPaymentItem } from '@/types';
 import { generateUUID } from '@/utils';
 
 const LOCAL_STORAGE_ORDERS_KEY = 'orders';
 
-export const getOrders = (sort: 'asc' | 'desc' = 'asc'): IOrder[] => {
+export const getOrders = ({
+  sort = 'asc',
+  scope = 'all',
+}: {
+  sort?: 'asc' | 'desc';
+  scope?: 'paid' | 'pending' | 'all';
+}): IOrder[] => {
   try {
     const data = localStorage.getItem(LOCAL_STORAGE_ORDERS_KEY);
     if (!data) return [];
@@ -18,7 +24,15 @@ export const getOrders = (sort: 'asc' | 'desc' = 'asc'): IOrder[] => {
       }
     });
 
-    return parsedOrders;
+    const filteredOrders = parsedOrders.filter((order) => {
+      if (scope === 'all') return true;
+
+      const isPaid = order.paymentItems && order.paymentItems.length > 0;
+      if (scope === 'paid') return isPaid;
+      if (scope === 'pending') return !isPaid;
+    });
+
+    return filteredOrders;
   } catch (error) {
     console.error('Error retrieving purchase orders from localStorage:', error);
     return [];
@@ -54,7 +68,7 @@ const calculateNextOrderNumber = (existingOrders: IOrder[]): number => {
 };
 
 export const getNextOrderNumber = () => {
-  const existingOrders = getOrders();
+  const existingOrders = getOrders({});
 
   return calculateNextOrderNumber(existingOrders);
 };
@@ -62,7 +76,7 @@ export const getNextOrderNumber = () => {
 export const registerOrder = (
   newOrder: Omit<IOrder, 'number' | 'id' | 'createdAt' | 'updatedAt'>,
 ): IOrder => {
-  const existingOrders = getOrders();
+  const existingOrders = getOrders({});
 
   const orderToSave: IOrder = {
     ...newOrder,
@@ -101,9 +115,41 @@ export const updateOrder = (
     rounds: [...updatedOrder.rounds],
   };
 
-  const existingOrders = getOrders();
+  const existingOrders = getOrders({});
   const updatedOrders = existingOrders.map((order) => {
     if (order.id === updatedOrder.id) {
+      return orderToUpdate;
+    } else {
+      return order;
+    }
+  });
+
+  try {
+    localStorage.setItem(
+      LOCAL_STORAGE_ORDERS_KEY,
+      JSON.stringify(updatedOrders),
+    );
+  } catch (error) {
+    console.error('Error saving the order in localStorage:', error);
+  }
+};
+
+export const payOrder = (id: string, paymentItems: IPaymentItem[]) => {
+  const foundOrder = getOrderById(id);
+  if (!foundOrder) {
+    console.error('Order not found in local storage');
+    return;
+  }
+
+  const orderToUpdate: IOrder = {
+    ...foundOrder,
+    paymentItems: [...paymentItems],
+    updatedAt: new Date().toISOString(),
+  };
+
+  const existingOrders = getOrders({});
+  const updatedOrders = existingOrders.map((order) => {
+    if (order.id === id) {
       return orderToUpdate;
     } else {
       return order;

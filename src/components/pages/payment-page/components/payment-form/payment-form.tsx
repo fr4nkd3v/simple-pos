@@ -69,7 +69,7 @@ export const PaymentForm = () => {
         setOpenedAccordions((previous) => [...previous, EPaymentType.CREDIT]);
       }
 
-      saveCreditPaymentItem(0);
+      saveCreditPaymentItem(1);
       enableCreditPayment();
     }
 
@@ -78,9 +78,9 @@ export const PaymentForm = () => {
 
   const handleAddDebitPaymentItem = () => {
     if (hasOnlyOneDebitPaymentItem) {
-      updateDebitPaymentItem(debitPaymentItems[0].method, 0);
+      updateDebitPaymentItem(debitPaymentItems[0].method, 1);
     }
-    addDebitPaymentItem(0);
+    addDebitPaymentItem(1);
   };
 
   return (
