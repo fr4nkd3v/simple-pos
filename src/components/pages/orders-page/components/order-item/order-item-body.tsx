@@ -1,9 +1,9 @@
-import { Icon } from '@/components/shared';
 import { Fragment } from 'react/jsx-runtime';
 import { useOrderContext } from './order-item.context';
 import { useMemo } from 'react';
 import type { IDetailedOrderRound } from '@/types';
 import { formatToPrice, getDetailedRounds } from '@/utils';
+import { Badge } from '@/components/shared';
 
 export const OrderItemBody = () => {
   const { order, isExpanded } = useOrderContext();
@@ -17,24 +17,24 @@ export const OrderItemBody = () => {
       key={round.number}
       className='flex gap-2'
     >
-      <p className='inline-flex w-6 shrink-0 font-semibold text-gray-400'>
-        R{round.number}:
-      </p>
+      <div className='w-22'>
+        <Badge variant='secondary'>Ronda {round.number}</Badge>
+      </div>
       <p>
         {round.items.map((item, index) => (
           <Fragment key={item.id}>
             {index > 0 && <span> + </span>}
-            <span className='font-semibold lining-nums tabular-nums'>
-              {item.quantity}
-            </span>{' '}
-            <span>{item.name}</span>
+            <span>{item.name} </span>
+            <span className='font-semibold lining-nums tabular-nums text-gray-900'>
+              x{item.quantity}
+            </span>
           </Fragment>
         ))}
       </p>
     </div>
   ));
 
-  const { totalQuantity, totalPrice } = useMemo(() => {
+  const { totalPrice } = useMemo(() => {
     let totalQuantity = 0,
       totalPrice = 0;
 
@@ -50,7 +50,9 @@ export const OrderItemBody = () => {
 
   return (
     <div>
-      {!isExpanded && <div className='text-sm'>{compactRoundList}</div>}
+      {!isExpanded && (
+        <div className='space-y-2 text-sm'>{compactRoundList}</div>
+      )}
 
       {isExpanded && (
         <ol className='rounded-lg border border-gray-200'>
@@ -70,7 +72,7 @@ export const OrderItemBody = () => {
                   >
                     <p className='flex flex-1 gap-2'>
                       <span className='lining-nums tabular-nums'>
-                        {item.quantity}
+                        x{item.quantity}
                       </span>
                       <span>{item.name}</span>
                     </p>
@@ -84,16 +86,9 @@ export const OrderItemBody = () => {
         </ol>
       )}
 
-      <div className='flex justify-between pt-3'>
-        <div className='flex items-center gap-1 text-gray-500'>
-          <Icon
-            name='bowlLi'
-            className='aspect-square h-5'
-          />
-          <span className='font-semibold'>{totalQuantity}</span>
-        </div>
-        <div className='flex items-center gap-2 text-gray-600'>
-          <span>Total:</span>
+      <div className='flex justify-end pt-3'>
+        <div className='flex items-center gap-1 text-gray-900'>
+          <span className='text-sm text-gray-600'>Total:</span>
           <span className='font-bold'>{formatToPrice(totalPrice)}</span>
         </div>
       </div>

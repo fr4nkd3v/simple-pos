@@ -28,11 +28,9 @@ export const MenuItem = ({
         }}
       >
         <div className='flex-1'>
-          <p className='text-xl font-semibold text-gray-700'>{name}</p>
-          <p className='text-[13px] font-semibold text-gray-400'>
-            {capitalize(category)}
-          </p>
-          <p className='text-2xl font-bold text-gray-700'>
+          <p className='text-xl font-semibold text-gray-900'>{name}</p>
+          <p className='text-[13px] text-gray-500'>{capitalize(category)}</p>
+          <p className='text-2xl font-bold text-gray-900'>
             {formatToPrice(price)}
           </p>
         </div>
