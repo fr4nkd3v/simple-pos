@@ -5,3 +5,4 @@ export * from './drawer';
 export * from './select';
 export * from './radio-group';
 export * from './switch';
+export * from './table';
